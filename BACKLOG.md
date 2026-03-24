@@ -28,7 +28,7 @@
 
 - [x] **Task 5 — Хардкод фикс** — 1) `lessons/[slug]/page.tsx` ~строка 211: "Деңгей" → `t("lesson.level")` (kk/ru/en). 2) `fll/page.tsx` ~строка 169: "ТРЕК" → `t("quiz.filter_track")`. Коммит: `"fix: replace hardcoded strings with i18n keys"`
 
-- [ ] **Task 6 — SEO метатеги** — `generateMetadata()` в page.tsx главной + fll + ftc + fgc с title и description. Коммит: `"feat: add SEO metadata"`
+- [x] **Task 6 — SEO метатеги** — `generateMetadata()` в page.tsx главной + fll + ftc + fgc с title и description. Коммит: `"feat: add SEO metadata"`
 
 - [ ] **Task 7 — Waitlist → Supabase** — создать `waitlist_migration.sql`, подключить форму в `ftc/page.tsx` и `fgc/page.tsx` к `supabase.from('waitlist').insert({email, competition})`. i18n ключ `waitlist.success`. Коммит: `"feat: connect waitlist to Supabase"`
 

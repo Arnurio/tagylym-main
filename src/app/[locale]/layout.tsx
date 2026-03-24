@@ -1,5 +1,14 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: "meta" });
+    return {
+        title: t("home_title"),
+        description: t("home_description"),
+    };
+}
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";

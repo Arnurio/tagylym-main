@@ -1,4 +1,14 @@
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: "meta" });
+    return {
+        title: t("fll_title"),
+        description: t("fll_description"),
+    };
+}
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import LevelBadge from "@/components/LevelBadge";
