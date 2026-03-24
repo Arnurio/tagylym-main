@@ -34,7 +34,7 @@
 
 - [x] **Task 8 — 404 страница** — создать `src/app/not-found.tsx`. Тёмный фон `bg-slate-900`, "404" в `#8B5CF6`, заголовок "Бет табылмады", кнопка "Басты бетке" → href="/". Коммит: `"feat: custom 404 page"`
 
-- [ ] **Task 9 — Секция "Для кого"** — `src/app/[locale]/page.tsx` после Hero. Три карточки `grid md:grid-cols-3`, стиль `bg-slate-800 border border-slate-700 rounded-xl p-6`. Карточки: Ученики🎓 / Менторы👨🏫 / Мектептер🏫. i18n ключи `audience.*`. Коммит: `"feat: add audience section"`
+- [x] **Task 9 — Секция "Для кого"** — `src/app/[locale]/page.tsx` после Hero. Три карточки `grid md:grid-cols-3`, стиль `bg-slate-800 border border-slate-700 rounded-xl p-6`. Карточки: Ученики🎓 / Менторы👨🏫 / Мектептер🏫. i18n ключи `audience.*`. Коммит: `"feat: add audience section"`
 
 - [ ] **Task 10 — FAQ секция** — `src/app/[locale]/page.tsx` в конце. Аккордеон на `useState`, 6 вопросов через i18n ключи `faq.q1/a1...faq.q6/a6`. Стиль `bg-slate-800 border-slate-700`. Коммит: `"feat: add FAQ section"`
 

@@ -60,25 +60,25 @@ const presentations = [
 const TARGET_CARDS = [
   {
     icon: "🎓",
-    titleKey: "target_students_title" as const,
-    descKey: "target_students_desc" as const,
-    ctaKey: "target_students_cta" as const,
+    titleKey: "audience_students_title" as const,
+    descKey: "audience_students_desc" as const,
+    ctaKey: "audience_students_cta" as const,
     href: "/fll" as const,
     color: "#3B82F6",
   },
   {
     icon: "👨‍🏫",
-    titleKey: "target_mentors_title" as const,
-    descKey: "target_mentors_desc" as const,
-    ctaKey: "target_mentors_cta" as const,
+    titleKey: "audience_mentors_title" as const,
+    descKey: "audience_mentors_desc" as const,
+    ctaKey: "audience_mentors_cta" as const,
     href: "/resources" as const,
     color: "#F97316",
   },
   {
     icon: "🏫",
-    titleKey: "target_schools_title" as const,
-    descKey: "target_schools_desc" as const,
-    ctaKey: "target_schools_cta" as const,
+    titleKey: "audience_schools_title" as const,
+    descKey: "audience_schools_desc" as const,
+    ctaKey: "audience_schools_cta" as const,
     href: "/fll" as const,
     color: "#22C55E",
   },
@@ -204,6 +204,61 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* AUDIENCE SECTION */}
+            <section className="bg-[#0F172A] px-6 py-28 relative border-b border-slate-800">
+                <div className="max-w-6xl mx-auto">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.15 }}
+                        variants={stagger}
+                        className="text-center mb-16"
+                    >
+                        <motion.h2
+                            variants={fadeInUp}
+                            className="text-3xl md:text-4xl font-calistoga text-white mb-4"
+                        >
+                            {t("audience_title")}
+                        </motion.h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {TARGET_CARDS.map((card, idx) => (
+                            <motion.div
+                                key={card.titleKey}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.1 }}
+                                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                                className="bg-slate-800 rounded-xl border border-slate-700 p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-shadow duration-300"
+                            >
+                                <div
+                                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 bg-slate-700/50"
+                                >
+                                    {card.icon}
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    {t(card.titleKey)}
+                                </h3>
+                                <p className="text-sm text-slate-300 leading-relaxed mb-6 flex-grow">
+                                    {t(card.descKey)}
+                                </p>
+                                <Link
+                                    href={card.href as "/"}
+                                    className="inline-flex items-center gap-1 text-sm font-semibold transition-colors"
+                                    style={{ color: card.color }}
+                                >
+                                    {t(card.ctaKey)}
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* "О проекте Tagylym" Section */}
             <section className="bg-white px-6 py-28 relative">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 items-center">
@@ -325,61 +380,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* TARGET AUDIENCE SECTION */}
-            <section className="bg-white px-6 py-28 relative">
-                <div className="max-w-6xl mx-auto">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.15 }}
-                        variants={stagger}
-                        className="text-center mb-16"
-                    >
-                        <motion.h2
-                            variants={fadeInUp}
-                            className="text-3xl md:text-4xl font-calistoga text-deepBlue mb-4"
-                        >
-                            {t("target_title")}
-                        </motion.h2>
-                    </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {TARGET_CARDS.map((card, idx) => (
-                            <motion.div
-                                key={card.titleKey}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.1 }}
-                                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                                className="bg-white rounded-2xl border border-[#E5E7EB] p-8 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-shadow duration-300"
-                            >
-                                <div
-                                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6"
-                                    style={{ backgroundColor: `${card.color}15` }}
-                                >
-                                    {card.icon}
-                                </div>
-                                <h3 className="text-xl font-bold text-[#0C2D48] mb-3">
-                                    {t(card.titleKey)}
-                                </h3>
-                                <p className="text-sm text-[#6B7280] leading-relaxed mb-6 flex-grow">
-                                    {t(card.descKey)}
-                                </p>
-                                <Link
-                                    href={card.href as "/"}
-                                    className="inline-flex items-center gap-1 text-sm font-semibold transition-colors"
-                                    style={{ color: card.color }}
-                                >
-                                    {t(card.ctaKey)}
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             {/* Presentations Section */}
             <section id="presentations" className="px-6 py-28 relative" style={{ backgroundColor: '#F0F4F8' }}>
