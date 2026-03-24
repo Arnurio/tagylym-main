@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
+import { supabase } from "@/lib/supabase";
+
 const DISCIPLINE_CARDS = [
     { key: "d1", color: "#3B82F6" },
     { key: "d2", color: "#F97316" },
@@ -38,9 +40,12 @@ export default function FGCPage() {
     const [email, setEmail] = useState("");
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email.trim()) setSubmitted(true);
+        if (email.trim()) {
+            await supabase.from("waitlist").insert({ email: email.trim(), competition: "fgc" });
+            setSubmitted(true);
+        }
     };
 
     return (

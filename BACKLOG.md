@@ -30,7 +30,7 @@
 
 - [x] **Task 6 — SEO метатеги** — `generateMetadata()` в page.tsx главной + fll + ftc + fgc с title и description. Коммит: `"feat: add SEO metadata"`
 
-- [ ] **Task 7 — Waitlist → Supabase** — создать `waitlist_migration.sql`, подключить форму в `ftc/page.tsx` и `fgc/page.tsx` к `supabase.from('waitlist').insert({email, competition})`. i18n ключ `waitlist.success`. Коммит: `"feat: connect waitlist to Supabase"`
+- [x] **Task 7 — Waitlist → Supabase** — создать `waitlist_migration.sql`, подключить форму в `ftc/page.tsx` и `fgc/page.tsx` к `supabase.from('waitlist').insert({email, competition})`. i18n ключ `waitlist.success`. Коммит: `"feat: connect waitlist to Supabase"`
 
 - [ ] **Task 8 — 404 страница** — создать `src/app/not-found.tsx`. Тёмный фон `bg-slate-900`, "404" в `#8B5CF6`, заголовок "Бет табылмады", кнопка "Басты бетке" → href="/". Коммит: `"feat: custom 404 page"`
 
