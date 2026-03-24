@@ -96,14 +96,14 @@ const FAQ_ITEMS = [
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-[#E5E7EB] rounded-xl overflow-hidden">
+    <div className="border border-slate-700 bg-slate-800 rounded-xl overflow-hidden shadow-sm">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-[#F9FAFB] transition-colors"
+        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-700/50 transition-colors"
       >
-        <span className="font-semibold text-sm text-[#0C2D48] pr-4">{question}</span>
+        <span className="font-semibold text-sm text-white pr-4">{question}</span>
         <svg
-          className={`w-5 h-5 text-[#9CA3AF] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -113,7 +113,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       </button>
       {isOpen && (
         <div className="px-6 pb-4">
-          <p className="text-sm text-[#6B7280] leading-relaxed">{answer}</p>
+          <p className="text-sm text-slate-300 leading-relaxed">{answer}</p>
         </div>
       )}
     </div>
@@ -417,7 +417,7 @@ export default function HomePage() {
             </section>
 
             {/* FAQ SECTION */}
-            <section className="bg-white px-6 py-28 relative">
+            <section className="bg-slate-900 px-6 py-28 relative">
                 <div className="max-w-3xl mx-auto">
                     <motion.div
                         initial="hidden"
@@ -428,7 +428,7 @@ export default function HomePage() {
                     >
                         <motion.h2
                             variants={fadeInUp}
-                            className="text-3xl md:text-4xl font-calistoga text-deepBlue"
+                            className="text-3xl md:text-4xl font-calistoga text-white"
                         >
                             {t("faq_title")}
                         </motion.h2>
