@@ -160,6 +160,16 @@
     "advanced_desc": "Достичь мастерства"
   },
   "fll": {
+    "title": "FLL Challenge",
+    "completed": "завершено",
+    "lesson_label": "Урок:",
+    "mark_complete": "Отметить как пройденный",
+    "completed_btn": "Урок пройден ✓",
+    "desc_prefix": "В этом уроке мы изучим основные концепции темы ",
+    "desc_suffix": ".",
+    "materials_reminder": "Обязательно посмотрите презентацию и видеоразбор.",
+    "placeholder_video": "Видео контент (ID: {id})",
+    "placeholder_pres": "Компонент презентации (ID: {id})",
     "hub_title": "FLL SUBMERGED™ 2025–26",
     "hub_subtitle": "Подготовка к соревнованиям FIRST Lego League",
     "season": "SUBMERGED 2025–26",

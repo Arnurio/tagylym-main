@@ -160,6 +160,16 @@
     "advanced_desc": "Шеберлікке жету"
   },
   "fll": {
+    "title": "FLL Challenge",
+    "completed": "аяқталды",
+    "lesson_label": "Сабақ:",
+    "mark_complete": "Аяқталды деп белгілеу",
+    "completed_btn": "Сабақ аяқталды ✓",
+    "desc_prefix": "Бұл сабақта біз ",
+    "desc_suffix": " тақырыбының негізгі ұғымдарын қарастырамыз.",
+    "materials_reminder": "Презентацияны қарап шығыңыз және бейнені соңына дейін көріңіз.",
+    "placeholder_video": "Бейне контент (ID: {id})",
+    "placeholder_pres": "Презентация компоненті (ID: {id})",
     "hub_title": "FLL SUBMERGED™ 2025–26",
     "hub_subtitle": "FIRST Lego League жарысына дайындалу",
     "season": "SUBMERGED 2025–26",

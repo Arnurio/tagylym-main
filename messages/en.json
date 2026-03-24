@@ -160,6 +160,16 @@
     "advanced_desc": "Reach mastery"
   },
   "fll": {
+    "title": "FLL Challenge",
+    "completed": "Completed",
+    "lesson_label": "Lesson:",
+    "mark_complete": "Mark as Completed",
+    "completed_btn": "Lesson Completed ✓",
+    "desc_prefix": "In this lesson we explore the foundational concepts of ",
+    "desc_suffix": ".",
+    "materials_reminder": "Make sure to check the presentation slides and follow along with the video guide.",
+    "placeholder_video": "Video Content Placeholder (ID: {id})",
+    "placeholder_pres": "Presentation Embed Component (ID: {id})",
     "hub_title": "FLL SUBMERGED™ 2025–26",
     "hub_subtitle": "Preparation for FIRST Lego League",
     "season": "SUBMERGED 2025–26",

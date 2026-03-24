@@ -63,7 +63,7 @@ const TARGET_CARDS = [
     titleKey: "audience_students_title" as const,
     descKey: "audience_students_desc" as const,
     ctaKey: "audience_students_cta" as const,
-    href: "/fll" as const,
+    href: "/course/fll" as const,
     color: "#3B82F6",
   },
   {
@@ -79,7 +79,7 @@ const TARGET_CARDS = [
     titleKey: "audience_schools_title" as const,
     descKey: "audience_schools_desc" as const,
     ctaKey: "audience_schools_cta" as const,
-    href: "/fll" as const,
+    href: "/course/fll" as const,
     color: "#22C55E",
   },
 ];
