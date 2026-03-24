@@ -50,6 +50,7 @@ function FLLPageContent({
     const tCourses = useTranslations("courses");
     const tFll = useTranslations("fll");
     const tCommon = useTranslations("common");
+    const tQuiz = useTranslations("quiz");
 
     return (
         <div className="min-h-screen bg-[#F5F5F5] text-[#1A1A1A]">
@@ -166,7 +167,7 @@ function FLLPageContent({
                                         {tCourses("free_label")}
                                     </p>
                                     <h3 className="text-sm font-semibold text-[#1A1A1A] leading-[1.3] line-clamp-2 min-h-[2.4rem] mb-1.5">
-                                        FLL CHALLENGE: ТРЕК {course.categoryName}
+                                        FLL CHALLENGE: {tQuiz("filter_track").toUpperCase()} {course.categoryName}
                                     </h3>
                                     {course.description && (
                                         <p className="text-[12px] text-[#6B7280] leading-[1.4] line-clamp-3 mb-2.5">

@@ -26,7 +26,7 @@
 
 - [ ] **Task 4 — Hero CTA кнопка** — `src/app/[locale]/page.tsx` Hero секция. Кнопка-ссылка на `/fll`. Стиль: `bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-semibold px-8 py-3 rounded-lg`. i18n ключ `home.hero_cta`: kk="Тегін бастау" ru="Начать бесплатно" en="Start Free". Коммит: `"feat: add hero CTA button"`
 
-- [ ] **Task 5 — Хардкод фикс** — 1) `lessons/[slug]/page.tsx` ~строка 211: "Деңгей" → `t("lesson.level")` (kk/ru/en). 2) `fll/page.tsx` ~строка 169: "ТРЕК" → `t("quiz.filter_track")`. Коммит: `"fix: replace hardcoded strings with i18n keys"`
+- [x] **Task 5 — Хардкод фикс** — 1) `lessons/[slug]/page.tsx` ~строка 211: "Деңгей" → `t("lesson.level")` (kk/ru/en). 2) `fll/page.tsx` ~строка 169: "ТРЕК" → `t("quiz.filter_track")`. Коммит: `"fix: replace hardcoded strings with i18n keys"`
 
 - [ ] **Task 6 — SEO метатеги** — `generateMetadata()` в page.tsx главной + fll + ftc + fgc с title и description. Коммит: `"feat: add SEO metadata"`
 

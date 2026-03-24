@@ -208,7 +208,7 @@ function LessonContent({ slug }: { slug: string }) {
                         <RubricCallout
                             criterion={lesson.rubricCriterion as RubricCriterion}
                             level={lesson.rubricLevel as RubricLevel}
-                            text={`${t("rubric_label")}: ${lesson.rubricCriterion} — Деңгей: ${lesson.rubricLevel}`}
+                            text={`${t("rubric_label")}: ${lesson.rubricCriterion} — ${t("level")}: ${lesson.rubricLevel}`}
                         />
                     </div>
                 )}

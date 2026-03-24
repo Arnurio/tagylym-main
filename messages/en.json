@@ -91,7 +91,8 @@
     "rubric_accomplished": "Accomplished",
     "rubric_exceeds": "Exceeds",
     "no_content": "This lesson's content is not ready yet.",
-    "back_to_courses": "Back to Courses"
+    "back_to_courses": "Back to Courses",
+    "level": "Level"
   },
   "checklist": {
     "title": "Checklist",

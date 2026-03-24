@@ -91,7 +91,8 @@
     "rubric_accomplished": "Орындады",
     "rubric_exceeds": "Асып кетті",
     "no_content": "Бұл сабақтың мазмұны әлі дайын емес.",
-    "back_to_courses": "Курстарға қайту"
+    "back_to_courses": "Курстарға қайту",
+    "level": "Деңгей"
   },
   "checklist": {
     "title": "Чеклист",

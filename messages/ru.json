@@ -91,7 +91,8 @@
     "rubric_accomplished": "Достигнуто",
     "rubric_exceeds": "Превосходит",
     "no_content": "Содержимое этого урока ещё не готово.",
-    "back_to_courses": "Вернуться к курсам"
+    "back_to_courses": "Вернуться к курсам",
+    "level": "Уровень"
   },
   "checklist": {
     "title": "Чеклист",
