@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useParams } from "next/navigation";
 import VideoPlayer from "@/components/VideoPlayer";
+import type { Quiz } from "@/types";
 
 interface Lesson {
   id: string;
@@ -25,12 +26,24 @@ interface Module {
   lessons: Lesson[];
 }
 
+function getEmbedUrl(url: string): string {
+  const driveFile = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveFile) return `https://drive.google.com/file/d/${driveFile[1]}/preview`;
+  const slides = url.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
+  if (slides) return `https://docs.google.com/presentation/d/${slides[1]}/embed`;
+  if (url.toLowerCase().endsWith('.pptx') || url.includes('sharepoint') || url.includes('1drv.ms')) {
+    return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  }
+  return url;
+}
+
 export default function CoursePlayerPage() {
   const t = useTranslations("fll");
   const params = useParams();
   const locale = params.locale as string;
 
   const [user, setUser] = useState<any>(null);
+  const [allCourses, setAllCourses] = useState<any[]>([]);
   const [course, setCourse] = useState<any>(null);
   const [curriculum, setCurriculum] = useState<Module[]>([]);
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
@@ -38,6 +51,14 @@ export default function CoursePlayerPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
+
+  // Quiz state
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [quizPhase, setQuizPhase] = useState<'hidden' | 'running' | 'done'>('hidden');
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizSelected, setQuizSelected] = useState<string | null>(null);
+  const [quizAnswered, setQuizAnswered] = useState(false);
 
   useEffect(() => {
     async function init() {
@@ -47,17 +68,26 @@ export default function CoursePlayerPage() {
       const { data: { user: authUser } } = await supabase.auth.getUser();
       setUser(authUser);
 
-      // 2. Fetch Course by ID from URL or first available
+      // 2. Fetch Course by ID from URL or show course list
       const searchParams = new URLSearchParams(window.location.search);
       const courseId = searchParams.get('courseId');
 
-      let query = supabase.from('courses').select('*');
-      if (courseId) {
-        query = query.eq('id', courseId);
-      } else {
-        query = query.limit(1);
+      if (!courseId) {
+        // No course selected — load all courses for selection
+        const { data: courses } = await supabase
+          .from('courses')
+          .select('id, title, title_kk, title_en, description')
+          .order('sort_order', { ascending: true });
+        setAllCourses(courses ?? []);
+        setLoading(false);
+        return;
       }
-      const { data: courseData, error: courseError } = await query.single();
+
+      const { data: courseData, error: courseError } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('id', courseId)
+        .single();
 
       if (courseError || !courseData) {
         console.error("Error fetching course:", courseError);
@@ -135,6 +165,21 @@ export default function CoursePlayerPage() {
     init();
   }, [locale]);
 
+  useEffect(() => {
+    if (!activeLesson) return;
+    setQuizPhase('hidden');
+    setQuizIndex(0);
+    setQuizScore(0);
+    setQuizSelected(null);
+    setQuizAnswered(false);
+    supabase
+      .from('quizzes')
+      .select('*')
+      .eq('lesson_id', activeLesson.id)
+      .eq('type', 'mcq')
+      .then(({ data }) => setQuizzes(data ?? []));
+  }, [activeLesson?.id]);
+
   const toggleComplete = useCallback(async (lessonId: string) => {
     if (!user) return;
     setSyncing(true);
@@ -171,10 +216,37 @@ export default function CoursePlayerPage() {
   }
 
   if (!course) {
+    // Show course selection grid
     return (
-      <div className="min-h-screen bg-[#0f172a] text-white flex flex-col items-center justify-center gap-4">
-        <p className="text-xl">Course not found.</p>
-        <p className="text-slate-400 text-sm">Make sure the database is set up and sync_csv.mjs has been run.</p>
+      <div className="min-h-screen bg-[#0f172a] text-white px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold text-white mb-2">FLL SUBMERGED™ 2025–26</h1>
+          <p className="text-slate-400 mb-10">Курс таңдаңыз / Выберите курс</p>
+          {allCourses.length === 0 ? (
+            <p className="text-slate-500">Курстар табылмады. База деректерін тексеріңіз.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {allCourses.map((c) => {
+                const title = locale === 'kk' ? (c.title_kk || c.title) : locale === 'en' ? (c.title_en || c.title) : c.title;
+                return (
+                  <a
+                    key={c.id}
+                    href={`?courseId=${c.id}`}
+                    className="group bg-slate-800/60 border border-slate-700 hover:border-[#8B5CF6]/50 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[#8B5CF6]/10"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 flex items-center justify-center mb-4 text-lg">
+                      📚
+                    </div>
+                    <h3 className="font-bold text-white text-sm leading-snug mb-2 group-hover:text-[#8B5CF6] transition-colors">{title}</h3>
+                    {c.description && (
+                      <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{c.description}</p>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -285,85 +357,210 @@ export default function CoursePlayerPage() {
 
         {/* CONTENT AREA */}
         <div className="flex-grow overflow-y-auto p-8 flex flex-col items-center">
-          <div className="w-full max-w-5xl mb-12">
+          <div className="w-full max-w-5xl mb-12 space-y-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeLesson.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="w-full"
+                className="w-full space-y-6"
               >
-                {activeLesson.type === 'video' && activeLesson.video_url ? (
-                  <VideoPlayer
-                    videoUrl={activeLesson.video_url}
-                    lessonId={activeLesson.id}
-                    onComplete={() => {
-                      if (!completedLessons.includes(activeLesson.id)) {
-                        toggleComplete(activeLesson.id);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div className="aspect-video bg-slate-950 rounded-2xl flex flex-col items-center justify-center border border-slate-800 gap-4">
-                    <svg className="w-16 h-16 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <p className="text-slate-500 text-sm">Урок без видео</p>
-                    {presentationUrl && (
+                {/* Presentation embed */}
+                {presentationUrl && (
+                  <div className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+                    <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/80 border-b border-slate-700">
+                      <span className="text-xs font-medium text-slate-400">Презентация</span>
                       <a
                         href={presentationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white rounded-xl text-sm font-semibold transition-colors"
+                        className="text-xs text-[#8B5CF6] hover:opacity-80 flex items-center gap-1.5 transition-opacity"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
-                        Открыть презентацию
+                        Толық экран
                       </a>
-                    )}
+                    </div>
+                    <iframe
+                      src={getEmbedUrl(presentationUrl)}
+                      className="w-full"
+                      style={{ height: '520px' }}
+                      allowFullScreen
+                      allow="autoplay"
+                    />
+                  </div>
+                )}
+
+                {/* Video player embed */}
+                {activeLesson.video_url && (
+                  <div className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+                    <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/80 border-b border-slate-700">
+                      <span className="text-xs font-medium text-slate-400">Бейне сабақ / Видеоурок</span>
+                      <a
+                        href={activeLesson.video_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-[#8B5CF6] hover:opacity-80 flex items-center gap-1.5 transition-opacity"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        YouTube
+                      </a>
+                    </div>
+                    <VideoPlayer
+                      videoUrl={activeLesson.video_url}
+                      lessonId={activeLesson.id}
+                      onComplete={() => {
+                        if (!completedLessons.includes(activeLesson.id)) {
+                          toggleComplete(activeLesson.id);
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* No content fallback */}
+                {!presentationUrl && !activeLesson.video_url && (
+                  <div className="aspect-video bg-slate-950 rounded-2xl flex items-center justify-center border border-slate-800">
+                    <p className="text-slate-500 text-sm">Мазмұн жоқ / Контент не добавлен</p>
                   </div>
                 )}
               </motion.div>
             </AnimatePresence>
           </div>
 
+          {/* QUIZ SECTION */}
+          {quizzes.length > 0 && (
+            <div className="w-full max-w-5xl mb-8">
+              {quizPhase === 'hidden' && (
+                <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 flex items-center justify-between">
+                  <div>
+                    <p className="text-white font-bold text-sm">{t("quiz_check")}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">{quizzes.length} вопросов</p>
+                  </div>
+                  <button
+                    onClick={() => { setQuizPhase('running'); setQuizIndex(0); setQuizScore(0); setQuizSelected(null); setQuizAnswered(false); }}
+                    className="px-5 py-2.5 rounded-xl bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-xs font-black uppercase tracking-widest transition-all"
+                  >
+                    {t("quiz_check")} →
+                  </button>
+                </div>
+              )}
+
+              {quizPhase === 'running' && (() => {
+                const q = quizzes[quizIndex];
+                const options: string[] = Array.isArray(q.options) ? q.options : [];
+                return (
+                  <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    {/* Progress */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("quiz_check")}</span>
+                      <span className="text-[10px] font-bold text-slate-400">{quizIndex + 1} / {quizzes.length}</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full mb-6 overflow-hidden">
+                      <div
+                        className="h-full bg-[#8B5CF6] rounded-full transition-all duration-300"
+                        style={{ width: `${((quizIndex) / quizzes.length) * 100}%` }}
+                      />
+                    </div>
+
+                    {/* Question */}
+                    <p className="text-white font-bold text-base leading-snug mb-5">{q.question}</p>
+
+                    {/* Options */}
+                    <div className="space-y-2.5 mb-5">
+                      {options.map((opt) => {
+                        let cls = "w-full text-left px-4 py-3 rounded-xl border text-sm transition-all ";
+                        if (!quizAnswered) {
+                          cls += quizSelected === opt
+                            ? "border-[#8B5CF6] bg-[#8B5CF6]/10 text-white"
+                            : "border-slate-700 text-slate-300 hover:border-slate-500 hover:bg-slate-800/50";
+                        } else {
+                          if (opt === q.correct_answer) cls += "border-emerald-500 bg-emerald-500/10 text-emerald-300";
+                          else if (opt === quizSelected) cls += "border-red-500 bg-red-500/10 text-red-300";
+                          else cls += "border-slate-800 text-slate-500";
+                        }
+                        return (
+                          <button
+                            key={opt}
+                            disabled={quizAnswered}
+                            onClick={() => setQuizSelected(opt)}
+                            className={cls}
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Tip after answer */}
+                    {quizAnswered && q.tip && (
+                      <div className="mb-4 px-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-400 leading-relaxed">
+                        {q.tip}
+                      </div>
+                    )}
+
+                    {/* Action button */}
+                    {!quizAnswered ? (
+                      <button
+                        disabled={!quizSelected}
+                        onClick={() => {
+                          if (!quizSelected) return;
+                          if (quizSelected === q.correct_answer) setQuizScore(s => s + 1);
+                          setQuizAnswered(true);
+                        }}
+                        className="w-full py-3 rounded-xl bg-[#8B5CF6] hover:bg-[#7C3AED] disabled:opacity-30 text-white text-xs font-black uppercase tracking-widest transition-all"
+                      >
+                        {t("quiz_confirm")}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          if (quizIndex + 1 >= quizzes.length) {
+                            setQuizPhase('done');
+                          } else {
+                            setQuizIndex(i => i + 1);
+                            setQuizSelected(null);
+                            setQuizAnswered(false);
+                          }
+                        }}
+                        className="w-full py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-black uppercase tracking-widest transition-all"
+                      >
+                        {quizIndex + 1 >= quizzes.length ? t("quiz_result").replace('{score}', String(quizScore + (quizSelected === q.correct_answer ? 1 : 0))).replace('{total}', String(quizzes.length)) : t("quiz_next") + " →"}
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {quizPhase === 'done' && (
+                <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 flex items-center justify-center mx-auto mb-4 text-3xl">
+                    {quizScore / quizzes.length >= 0.7 ? '🏆' : quizScore / quizzes.length >= 0.5 ? '👍' : '📚'}
+                  </div>
+                  <p className="text-3xl font-black text-white mb-2">
+                    {t("quiz_result").replace('{score}', String(quizScore)).replace('{total}', String(quizzes.length))}
+                  </p>
+                  <p className="text-slate-400 text-sm mb-6">
+                    {quizScore / quizzes.length >= 0.7 ? t("quiz_high") : quizScore / quizzes.length >= 0.5 ? t("quiz_mid") : t("quiz_low")}
+                  </p>
+                  <button
+                    onClick={() => { setQuizPhase('running'); setQuizIndex(0); setQuizScore(0); setQuizSelected(null); setQuizAnswered(false); }}
+                    className="px-8 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-bold uppercase tracking-widest transition-all"
+                  >
+                    {t("quiz_retry")}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="w-full max-w-2xl text-center">
             <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight">{activeLesson.title}</h2>
             <div className="h-1 w-20 bg-[#8B5CF6] mx-auto mb-8 rounded-full" />
-
-            {/* Links row */}
-            <div className="flex gap-3 justify-center mb-10 flex-wrap">
-              {activeLesson.video_url && (
-                <a href={activeLesson.video_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors">
-                  <svg className="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                  Видео (RU)
-                </a>
-              )}
-              {activeLesson.video_url_kk && (
-                <a href={activeLesson.video_url_kk} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors">
-                  <svg className="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                  Видео (KK)
-                </a>
-              )}
-              {activeLesson.presentation_url && (
-                <a href={activeLesson.presentation_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors">
-                  <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  Слайды (RU)
-                </a>
-              )}
-              {activeLesson.presentation_url_kk && (
-                <a href={activeLesson.presentation_url_kk} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors">
-                  <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  Слайды (KK)
-                </a>
-              )}
-            </div>
 
             <button
               onClick={() => toggleComplete(activeLesson.id)}

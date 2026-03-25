@@ -49,7 +49,10 @@
     "about_quote": "Hundreds of schools with robotics equipment don't use it to its full potential due to lack of content and mentors.",
     "problem_title": "The Problem",
     "problem_body": "Today, access to quality STEM education and robotics depends heavily on city, school, and family income: major centers have specialized Lyceums and clubs, while rural schools, even when they have robotics classrooms, often lack content, methodologies, and mentors.",
-    "problem_quote": "Over 60% of Kazakhstan's students study in rural schools and small towns where access to sustainable STEM programs is limited."
+    "problem_quote": "Over 60% of Kazakhstan's students study in rural schools and small towns where access to sustainable STEM programs is limited.",
+    "presentations_title": "Learning Paths",
+    "view_track": "View Track",
+    "all_courses": "All Courses"
   },
   "courses": {
     "page_title": "Courses",
@@ -185,7 +188,15 @@
     "checklist_count": "items",
     "enter": "Enter",
     "category_subtitle": "Develop your skills in this category and reach new heights.",
-    "core_values_text": "Core values are not a separate subject. They are integrated into the entire learning process. During evaluations, judges look at how the team demonstrates these values during competitions."
+    "core_values_text": "Core values are not a separate subject. They are integrated into the entire learning process. During evaluations, judges look at how the team demonstrates these values during competitions.",
+    "quiz_check": "Test Knowledge",
+    "quiz_confirm": "Confirm",
+    "quiz_next": "Next",
+    "quiz_result": "{score} / {total} correct",
+    "quiz_low": "Review the lesson material.",
+    "quiz_mid": "Not bad! Review some topics.",
+    "quiz_high": "Excellent! You mastered this lesson.",
+    "quiz_retry": "Try again"
   },
   "quiz": {
     "page_title": "Quiz Bank",
@@ -380,6 +391,9 @@
     "checklists": "Checklists",
     "downloads": "Downloads",
     "copyright": "© 2025 Tagylym. All rights reserved."
+  },
+  "presentations": {
+    "back": "Back to Presentations"
   },
   "meta": {
     "home_title": "Tagylym — Robotics Education Platform",

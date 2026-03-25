@@ -56,7 +56,7 @@ export default function CourseCard({ course, locale }: CourseCardProps) {
 
             <div className="p-6 pt-0 mt-auto">
                 <Link
-                    href={`/${locale}/courses/${course.slug}`}
+                    href={`/${locale}/course/fll?courseId=${course.id}`}
                     className="flex items-center justify-center w-full py-3 bg-slate-800/50 hover:bg-accent text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all active:scale-[0.98] group-hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]"
                 >
                     {t("start")}
