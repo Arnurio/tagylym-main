@@ -3,27 +3,218 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { getLessonBySlug } from "@/lib/sanity";
 import { supabase } from "@/lib/supabase";
-import { PortableText } from "@portabletext/react";
 import VideoPlayer from "@/components/VideoPlayer";
 import QuizCard from "@/components/QuizCard";
-import TipBox from "@/components/TipBox";
-import RubricCallout from "@/components/RubricCallout";
-import type { Quiz, RubricCriterion, RubricLevel } from "@/types";
+import type { Quiz } from "@/types";
 
-interface SanityLesson {
+interface LessonData {
+    id: string;
+    course_id: string;
     title: string;
-    slug: string;
-    courseSlug: string;
-    order: number;
-    isFree: boolean;
-    videoUrl: string | null;
-    presentationUrl: string | null;
-    content: { _type: string; [key: string]: unknown }[] | null;
-    tip: string | null;
-    rubricCriterion: string | null;
-    rubricLevel: string | null;
+    title_kk?: string | null;
+    title_en?: string | null;
+    video_url: string | null;
+    video_url_kk?: string | null;
+    presentation_url?: string | null;
+    presentation_url_kk?: string | null;
+    content_md: string | null;
+    sort_order: number;
+    is_free: boolean;
+}
+
+function LoadingSpinner() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
+            <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+        </div>
+    );
+}
+
+function LessonContent({ id, locale }: { id: string; locale: string }) {
+    const t = useTranslations("lesson");
+    const tCommon = useTranslations("common");
+    const [lesson, setLesson] = useState<LessonData | null>(null);
+    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [siblings, setSiblings] = useState<{ id: string; title: string; sort_order: number }[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const init = async () => {
+            setLoading(true);
+
+            const { data: { user } } = await supabase.auth.getUser();
+            setUserId(user?.id ?? null);
+
+            const { data, error } = await supabase
+                .from("lessons")
+                .select("*")
+                .eq("id", id)
+                .single();
+
+            if (error || !data) {
+                setNotFound(true);
+                setLoading(false);
+                return;
+            }
+
+            setLesson(data);
+
+            const [sibsRes, quizRes] = await Promise.all([
+                supabase
+                    .from("lessons")
+                    .select("id, title, sort_order")
+                    .eq("course_id", data.course_id)
+                    .order("sort_order", { ascending: true }),
+                supabase
+                    .from("quizzes")
+                    .select("*")
+                    .eq("lesson_id", id),
+            ]);
+
+            if (sibsRes.data) setSiblings(sibsRes.data);
+            if (quizRes.data) setQuizzes(quizRes.data);
+
+            setLoading(false);
+        };
+
+        init();
+    }, [id]);
+
+    const handleVideoEnd = async () => {
+        if (!userId) return;
+        await supabase.from("progress").upsert(
+            { user_id: userId, lesson_id: id, completed_at: new Date().toISOString() },
+            { onConflict: "user_id,lesson_id" }
+        );
+    };
+
+    if (loading) return <LoadingSpinner />;
+
+    if (notFound || !lesson) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#0f172a] text-white">
+                <div className="text-center max-w-md px-6">
+                    <h1 className="text-2xl font-bold mb-3">{tCommon("coming_soon")}</h1>
+                    <p className="text-slate-400 text-sm mb-6">{t("no_content")}</p>
+                    <Link
+                        href={"/fll" as "/"}
+                        className="inline-flex px-6 py-2.5 rounded-lg bg-primary text-white font-medium text-sm hover:opacity-90 transition-opacity"
+                    >
+                        ← {t("back_to_courses")}
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
+    const title =
+        locale === "kk" ? (lesson.title_kk || lesson.title) :
+        locale === "en" ? (lesson.title_en || lesson.title) :
+        lesson.title;
+
+    const videoUrl =
+        locale === "kk" ? (lesson.video_url_kk || lesson.video_url) : lesson.video_url;
+
+    const presentationUrl =
+        locale === "kk" ? (lesson.presentation_url_kk || lesson.presentation_url) : lesson.presentation_url;
+
+    const currentIdx = siblings.findIndex((s) => s.id === id);
+    const prevLesson = currentIdx > 0 ? siblings[currentIdx - 1] : null;
+    const nextLesson = currentIdx < siblings.length - 1 ? siblings[currentIdx + 1] : null;
+
+    return (
+        <div className="min-h-screen bg-[#0f172a] text-white">
+            <div className="max-w-3xl mx-auto py-10 px-6">
+                <Link
+                    href={"/fll" as "/"}
+                    className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white text-sm mb-6 transition-colors"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    FLL
+                </Link>
+                <h1 className="text-3xl font-bold text-white mb-6">{title}</h1>
+
+                {videoUrl && (
+                    <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-8 shadow-lg">
+                        <VideoPlayer videoUrl={videoUrl} lessonId={id} onComplete={handleVideoEnd} />
+                    </div>
+                )}
+
+                {presentationUrl && (
+                    <div className="mb-8 border border-white/10 rounded-2xl overflow-hidden shadow-lg">
+                        <div className="bg-slate-800 px-4 py-3 flex justify-between items-center">
+                            <h3 className="font-semibold text-sm text-white">Презентация</h3>
+                            <a
+                                href={presentationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-primary hover:opacity-80 flex items-center gap-2"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Ашу / Открыть
+                            </a>
+                        </div>
+                        <iframe
+                            src={
+                                presentationUrl.toLowerCase().endsWith(".pdf")
+                                    ? presentationUrl
+                                    : `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(presentationUrl)}`
+                            }
+                            className="w-full h-[500px] md:h-[600px]"
+                            allowFullScreen
+                        />
+                    </div>
+                )}
+
+                {lesson.content_md && (
+                    <div className="mb-8 text-slate-300 leading-relaxed whitespace-pre-wrap text-base">
+                        {lesson.content_md}
+                    </div>
+                )}
+
+                {quizzes.length > 0 && (
+                    <div className="mt-12 mb-6">
+                        <h2 className="text-2xl font-bold text-white mb-6">{t("quiz_title")}</h2>
+                        <div className="space-y-6">
+                            {quizzes.map((q) => (
+                                <QuizCard key={q.id} quiz={q} />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-8">
+                    {prevLesson ? (
+                        <Link
+                            href={`/lessons/${prevLesson.id}` as "/"}
+                            className="border border-white/10 text-slate-300 hover:bg-white/5 transition-colors rounded-lg px-6 py-2.5 text-sm font-medium flex items-center gap-2"
+                        >
+                            ← {t("prev")}
+                        </Link>
+                    ) : (
+                        <span />
+                    )}
+                    {nextLesson ? (
+                        <Link
+                            href={`/lessons/${nextLesson.id}` as "/"}
+                            className="bg-primary text-white hover:opacity-90 transition-opacity rounded-lg px-6 py-2.5 text-sm font-medium flex items-center gap-2"
+                        >
+                            {t("next")} →
+                        </Link>
+                    ) : (
+                        <span />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default function LessonPage({
@@ -34,242 +225,9 @@ export default function LessonPage({
     const [resolvedParams, setResolvedParams] = useState<{ locale: string; slug: string } | null>(null);
 
     useEffect(() => {
-        params.then((p) => setResolvedParams(p));
+        params.then(setResolvedParams);
     }, [params]);
 
-    if (!resolvedParams) return <LessonLoading />;
-    return <LessonContent slug={resolvedParams.slug} locale={resolvedParams.locale} />;
-}
-
-function LessonLoading() {
-    const tCommon = useTranslations("common");
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5] text-[#1A1A1A]">
-            <div className="text-center">
-                <div className="w-8 h-8 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                <p className="text-[#6B7280] text-sm">{tCommon("loading")}</p>
-            </div>
-        </div>
-    );
-}
-
-function LessonContent({ slug, locale }: { slug: string; locale: string }) {
-    const t = useTranslations("lesson");
-    const tCommon = useTranslations("common");
-    const [lesson, setLesson] = useState<SanityLesson | null>(null);
-    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-    const [siblings, setSiblings] = useState<{ slug: string; title: string }[]>([]);
-    const [supabaseLessonId, setSupabaseLessonId] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [notFound, setNotFound] = useState(false);
-    const [userId, setUserId] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchLesson = async () => {
-            setLoading(true);
-            setNotFound(false);
-
-            try {
-                // Fetch from Sanity
-                const data = await getLessonBySlug(slug, locale);
-
-                if (!data) {
-                    setNotFound(true);
-                    setLoading(false);
-                    return;
-                }
-
-                setLesson(data);
-
-                // Fetch sibling lessons in same course from Sanity
-                const { getLessonsByCourseSlug } = await import("@/lib/sanity");
-                const sibs = await getLessonsByCourseSlug(data.courseSlug, locale);
-                if (sibs) setSiblings(sibs);
-
-                // Look up the Supabase lesson UUID by title match
-                const { data: sbLesson } = await supabase
-                    .from("lessons")
-                    .select("id")
-                    .eq("title", data.title)
-                    .maybeSingle();
-                const lessonUuid = sbLesson?.id ?? null;
-                setSupabaseLessonId(lessonUuid);
-
-                // Fetch quizzes by Supabase UUID (if found)
-                if (lessonUuid) {
-                    const { data: quizData } = await supabase
-                        .from("quizzes")
-                        .select("*")
-                        .eq("lesson_id", lessonUuid);
-                    if (quizData) setQuizzes(quizData);
-                }
-            } catch {
-                setNotFound(true);
-            }
-
-            setLoading(false);
-        };
-
-        fetchLesson();
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            setUserId(user?.id ?? null);
-        });
-    }, [slug]);
-
-    // VideoPlayer calls this when the video ends; we write progress here using the Supabase UUID
-    const handleVideoEnd = async () => {
-        if (!userId || !supabaseLessonId) return;
-        await supabase.from("progress").upsert({
-            user_id: userId,
-            lesson_id: supabaseLessonId,
-            completed_at: new Date().toISOString(),
-        }, { onConflict: "user_id,lesson_id" });
-    };
-
-    if (loading) return <LessonLoading />;
-
-    if (notFound || !lesson) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5] text-[#1A1A1A]">
-                <div className="text-center max-w-md mx-auto px-6">
-                    <div className="w-20 h-20 rounded-2xl bg-white border border-[#E5E7EB] shadow-sm flex items-center justify-center mx-auto mb-6 text-4xl">
-                        📝
-                    </div>
-                    <h1 className="text-2xl font-bold font-display text-[#1A1A1A] mb-3">{tCommon("coming_soon")}</h1>
-                    <p className="text-[#6B7280] text-sm leading-relaxed mb-6">
-                        {t("no_content")}
-                    </p>
-                    <Link
-                        href={"/fll" as "/"}
-                        className="inline-flex px-6 py-2.5 rounded-lg bg-[#2563EB] text-white font-medium text-sm hover:bg-[#1D4ED8] transition-colors"
-                    >
-                        ← {t("back_to_courses")}
-                    </Link>
-                </div>
-            </div>
-        );
-    }
-
-    // Find prev/next in siblings
-    const currentIdx = siblings.findIndex((s) => s.slug === slug);
-    const prevLesson = currentIdx > 0 ? siblings[currentIdx - 1] : null;
-    const nextLesson = currentIdx < siblings.length - 1 ? siblings[currentIdx + 1] : null;
-
-    return (
-        <div className="min-h-screen bg-[#F5F5F5] text-[#1A1A1A]">
-            <div className="max-w-3xl mx-auto py-10 px-6">
-                {/* Title */}
-                <h1 className="font-display text-3xl font-bold text-[#1A1A1A] mb-6">{lesson.title}</h1>
-
-                {/* Video */}
-                {lesson.videoUrl && (
-                    <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-8 shadow-sm">
-                        <VideoPlayer
-                            videoUrl={lesson.videoUrl}
-                            lessonId={lesson.slug}
-                            onComplete={handleVideoEnd}
-                        />
-                    </div>
-                )}
-
-                {/* Presentation Embedded Viewer */}
-                {lesson.presentationUrl && (
-                    <div className="mb-8 border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm bg-white">
-                        <div className="bg-[#1A1A1A] px-4 py-3 flex justify-between items-center text-white">
-                            <h3 className="font-semibold text-sm">Презентация к уроку</h3>
-                            <a href={lesson.presentationUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-[#3B82F6] hover:text-[#60A5FA] flex items-center gap-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                Скачать / Открыть
-                            </a>
-                        </div>
-                        <iframe 
-                            src={lesson.presentationUrl.toLowerCase().endsWith('.pdf') 
-                                ? lesson.presentationUrl 
-                                : `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(lesson.presentationUrl)}`} 
-                            className="w-full h-[500px] md:h-[600px] bg-gray-50" 
-                            allowFullScreen>
-                        </iframe>
-                    </div>
-                )}
-
-                {/* Content (Portable Text) */}
-                {lesson.content && lesson.content.length > 0 && (
-                    <div className="prose prose-lg max-w-none mb-8 text-base text-[#374151] leading-relaxed prose-headings:font-semibold prose-headings:text-[#1A1A1A] prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4">
-                        <PortableText
-                            value={lesson.content}
-                            components={{
-                                types: {
-                                    code: ({ value }: { value: { code?: string; language?: string } }) => (
-                                        <pre className="bg-[#1A1A1A] rounded-xl p-4 overflow-x-auto my-6 border border-[#2D2D2D]">
-                                            <code className="font-mono text-sm text-[#E2E8F0] leading-relaxed" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                                                {value.code}
-                                            </code>
-                                        </pre>
-                                    ),
-                                },
-                                marks: {
-                                    code: ({ children }: { children?: React.ReactNode }) => (
-                                        <code className="bg-[#F3F4F6] text-[#1A1A1A] px-1.5 py-0.5 rounded text-sm" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                                            {children}
-                                        </code>
-                                    ),
-                                },
-                            }}
-                        />
-                    </div>
-                )}
-
-
-                {/* Tip */}
-                {lesson.tip && <TipBox text={lesson.tip} />}
-
-                {/* Rubric */}
-                {lesson.rubricCriterion && lesson.rubricLevel && (
-                    <div className="mt-8">
-                        <RubricCallout
-                            criterion={lesson.rubricCriterion as RubricCriterion}
-                            level={lesson.rubricLevel as RubricLevel}
-                            text={`${t("rubric_label")}: ${lesson.rubricCriterion} — ${t("level")}: ${lesson.rubricLevel}`}
-                        />
-                    </div>
-                )}
-
-                {/* Quizzes */}
-                {quizzes.length > 0 && (
-                    <div className="mt-12 mb-6">
-                        <h2 className="text-2xl font-bold text-[#1A1A1A] mb-6">{t("quiz_title")}</h2>
-                        <div className="space-y-6">
-                            {quizzes.map((q) => (
-                                <QuizCard key={q.id} quiz={q} />
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Navigation */}
-                <div className="mt-12 flex items-center justify-between border-t border-[#E5E7EB] pt-8">
-                    {prevLesson ? (
-                        <Link
-                            href={`/lessons/${prevLesson.slug}` as "/"}
-                            className="bg-white border border-[#E5E7EB] text-[#374151] hover:bg-[#F3F4F6] transition-colors rounded-lg px-6 py-2.5 text-sm font-medium flex items-center gap-2 shadow-sm"
-                        >
-                            &larr; {t("prev")}
-                        </Link>
-                    ) : (
-                        <span />
-                    )}
-                    {nextLesson ? (
-                        <Link
-                            href={`/lessons/${nextLesson.slug}` as "/"}
-                            className="bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors rounded-lg px-6 py-2.5 text-sm font-medium flex items-center gap-2 shadow-sm"
-                        >
-                            {t("next")} &rarr;
-                        </Link>
-                    ) : (
-                        <span />
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+    if (!resolvedParams) return <LoadingSpinner />;
+    return <LessonContent id={resolvedParams.slug} locale={resolvedParams.locale} />;
 }
