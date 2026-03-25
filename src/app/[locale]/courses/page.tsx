@@ -31,7 +31,7 @@ export default function CoursesPage() {
                     ),
                     lessons (id)
                 `)
-                .order('order', { ascending: true });
+                .order('sort_order', { ascending: true });
 
             if (error) {
                 console.error("Error fetching courses:", error);

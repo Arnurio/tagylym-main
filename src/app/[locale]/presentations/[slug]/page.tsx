@@ -2,7 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 const presentations: Record<string, { title: string; description: string; color: string; driveUrl: string }> = {
   "fll-innovation-project": {
@@ -57,6 +58,7 @@ export default function PresentationPage() {
   const params = useParams();
   const slug = params.slug as string;
   const track = presentations[slug];
+  const t = useTranslations("presentations");
 
   if (!track) {
     return (
@@ -93,13 +95,13 @@ export default function PresentationPage() {
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <Link
-              href="/#presentations"
+              href={"/#tracks" as "/"}
               className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-2 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
               </svg>
-              Презентацияларға қайту
+              {t("back")}
             </Link>
             <h1 className="text-2xl md:text-3xl font-bold text-white">
               {track.title}
