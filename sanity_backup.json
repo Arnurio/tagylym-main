@@ -1,0 +1,1615 @@
+[
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.administrator",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_id in path(\"**\")",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      },
+      {
+        "filter": "(_id in path(\"**\")) && (_id in path(\"drafts.**\") || _id in path(\"versions.**\"))",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      }
+    ],
+    "members": [
+      "pmTJVDglI"
+    ]
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.create-session",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [],
+    "members": []
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.public",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_id in path(\"*\")",
+        "permissions": [
+          "read"
+        ]
+      }
+    ],
+    "members": [
+      "everyone"
+    ]
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.read",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [],
+    "members": []
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.sanity.contributor",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_type == \"sanity.imageAsset\"",
+        "permissions": [
+          "create"
+        ]
+      },
+      {
+        "filter": "_type == \"sanity.fileAsset\"",
+        "permissions": [
+          "create"
+        ]
+      },
+      {
+        "filter": "_id in path(\"**\")",
+        "permissions": [
+          "history",
+          "read"
+        ]
+      },
+      {
+        "filter": "(_id in path(\"**\")) && (_id in path(\"drafts.**\") || _id in path(\"versions.**\"))",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      }
+    ],
+    "members": []
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.sanity.developer",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_id in path(\"**\")",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      },
+      {
+        "filter": "(_id in path(\"**\")) && (_id in path(\"drafts.**\") || _id in path(\"versions.**\"))",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      }
+    ],
+    "members": []
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.sanity.editor",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_id in path(\"**\")",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      },
+      {
+        "filter": "(_id in path(\"**\")) && (_id in path(\"drafts.**\") || _id in path(\"versions.**\"))",
+        "permissions": [
+          "history",
+          "read",
+          "update",
+          "create"
+        ]
+      }
+    ],
+    "members": [
+      "pWPkg3Ui1"
+    ]
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.sanity.viewer",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [
+      {
+        "filter": "_id in path(\"**\")",
+        "permissions": [
+          "history",
+          "read"
+        ]
+      },
+      {
+        "filter": "(_id in path(\"**\")) && (_id in path(\"drafts.**\") || _id in path(\"versions.**\"))",
+        "permissions": [
+          "history",
+          "read"
+        ]
+      }
+    ],
+    "members": []
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.groups.write",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIbYS",
+    "_type": "system.group",
+    "_updatedAt": "2026-03-24T18:00:27Z",
+    "grants": [],
+    "members": [
+      "pWPkg3Ui1"
+    ]
+  },
+  {
+    "_createdAt": "2026-03-24T17:56:02Z",
+    "_id": "_.retention._maximum_project",
+    "_rev": "9ZS6aVxTNZ7JEK8vzlIO5g",
+    "_type": "system.retention",
+    "_updatedAt": "2026-03-24T17:56:02Z",
+    "days": 90,
+    "maximum": true,
+    "preferShorter": true
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-00a5f0ed-fff0-4955-92f5-cb6544427cbd",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "93e8a1de-29ab-4c62-8023-e16ebd33016d",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fgc/FGC-03_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "fgc-03"
+    },
+    "title": "FGC-03",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-03c2e5d3-80be-4911-bf66-da18f94f50d8",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RDB01_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rdb01-video-slides"
+    },
+    "title": "RDB01_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-1132894d-d411-4fe6-a3b7-a237ce8bf6d4",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-07_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-07"
+    },
+    "title": "RD-07",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-16e6020b-4075-4ebd-b563-79dcb20bfe94",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-03_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-03"
+    },
+    "title": "RD-03",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T17:25:37Z",
+    "_id": "lesson-16fc9fe1-b808-492f-8e14-b67e4050f30c",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Robototehnika_Compressed.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-prime"
+    },
+    "title": "Введение в SPIKE Prime",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-335a0665-7e3a-4875-82ac-0dc5cf1b7425",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/spike%206.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-6"
+    },
+    "title": "spike 6",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-3423a21d-b5ee-46e4-a33a-8cd150e72a08",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB02_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb02-video-slides"
+    },
+    "title": "IPB02_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-39ffc350-590b-4d54-9399-0c66583463c7",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%202.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-2"
+    },
+    "title": "Spike 2",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-65eb010b-d870-4ae6-a39c-d745e87e39aa",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%207.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-7"
+    },
+    "title": "Spike 7",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-67448338-3ef4-408a-acb3-efa776335069",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IP03_Research.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ip03-research"
+    },
+    "title": "IP03_Research",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-78f096d1-b0e5-485f-b5fc-ff0b1114e018",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%208.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-8"
+    },
+    "title": "Spike 8",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-7a7132ef-db84-4c20-bb0d-ffe31174fa7c",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike4.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike4"
+    },
+    "title": "Spike4",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-8123ccd1-e0dd-441c-aec6-d9fcaa25e86b",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB01_video_slides_1.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb01-video-slides-1"
+    },
+    "title": "IPB01_video_slides_1",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-8822e1b7-7720-4dbe-92b9-8358e221f081",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IP05_Solution.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ip05-solution"
+    },
+    "title": "IP05_Solution",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-89c03206-0375-4e52-b5f7-a1e1c42819ad",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%2010.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-10"
+    },
+    "title": "Spike 10",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-8a28aa4d-b0e1-4c51-8cce-81660f900898",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB04_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb04-video-slides"
+    },
+    "title": "IPB04_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-943cfe49-5854-44d0-9a36-47f881e1fd21",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB06_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb06-video-slides"
+    },
+    "title": "IPB06_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-97112ea7-33a9-4d45-8f05-0bf2a16b96ea",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RDB02_kaz_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rdb02-kaz-video-slides"
+    },
+    "title": "RDB02_kaz_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-9835c1df-c486-413e-9103-c8e219d923d8",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB05_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb05-video-slides"
+    },
+    "title": "IPB05_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-9ababa56-042b-4baf-8f63-4880a732122a",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB01_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb01-video-slides"
+    },
+    "title": "IPB01_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-9c5dda7b-eb10-4ade-bdc0-ef2e62e9ce4e",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "93e8a1de-29ab-4c62-8023-e16ebd33016d",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fgc/FGC-04_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "fgc-04"
+    },
+    "title": "FGC-04",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-9d68bf5b-b495-43f6-b836-db50a7fe8159",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IP04_ProjectPlan.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ip04-projectplan"
+    },
+    "title": "IP04_ProjectPlan",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-a29c967a-08b0-4ac6-abd6-65bba1ffe868",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RDB02_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rdb02-video-slides"
+    },
+    "title": "RDB02_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-a8c15d33-23e4-4f5b-b8ab-719e52192788",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%205.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-5"
+    },
+    "title": "Spike 5",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-b581962b-911d-4207-bffd-a4270971c9ba",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-02_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-02"
+    },
+    "title": "RD-02",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-bc88a332-311b-4b4b-908f-d5c95b613bc8",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB01_video_slides_2.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb01-video-slides-2"
+    },
+    "title": "IPB01_video_slides_2",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-be635578-c771-4efd-a065-22b2ee06ff3f",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-05_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-05"
+    },
+    "title": "RD-05",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-c02797e2-7b99-43c5-b149-c18683d55702",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-01_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-01"
+    },
+    "title": "RD-01",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-c9ccf00b-73bd-40d1-b238-b9a28910c2ca",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IPB03_video_slides.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ipb03-video-slides"
+    },
+    "title": "IPB03_video_slides",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-cddb2cf3-b8fa-4bc5-ae17-3963532ab0ed",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-06_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-06"
+    },
+    "title": "RD-06",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-cf82c19f-5a10-4503-b95e-8ae3d4ed9249",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%203.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-3"
+    },
+    "title": "Spike 3",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-d3b11561-1da5-4072-b9f8-ca6073ec649d",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "93e8a1de-29ab-4c62-8023-e16ebd33016d",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fgc/FGC-02_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "fgc-02"
+    },
+    "title": "FGC-02",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-d88db7df-2838-4d2e-add3-4ed4c34996be",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-04_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-04"
+    },
+    "title": "RD-04",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-e8b67ba6-8ffd-474f-aa63-5591ba86ea6e",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "93e8a1de-29ab-4c62-8023-e16ebd33016d",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fgc/FGC-01_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "fgc-01"
+    },
+    "title": "FGC-01",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-f292bb71-5f08-47fc-9477-d5e348f3ac9b",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "c41b35c0-0048-43b4-bc40-7c5ac2f7c352",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/RD-08_RU.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "rd-08"
+    },
+    "title": "RD-08",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-f6fc5418-e804-4420-8bc0-a1e3043e3b35",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Robototehnika-LEGO-Education-SPIKE-Prime%20(1",
+    "slug": {
+      "_type": "slug",
+      "current": "robototehnika-lego-education-spike-prime-1"
+    },
+    "title": "Robototehnika-LEGO-Education-SPIKE-Prime (1)",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-fc65fdb0-ea3a-4995-805c-b2bcb62174b7",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "7021d56c-e7b9-4f7c-8d37-76f6abb3945b",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/Spike%209.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "spike-9"
+    },
+    "title": "Spike 9",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-24T16:49:56Z",
+    "_id": "lesson-fd168086-ddb7-49c8-820c-ab28e569bac0",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-24T17:28:58Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Изучите материалы урока ниже:"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "ff16be5f-35c1-4cbc-8348-d851d1c34a4c",
+    "isFree": true,
+    "order": 0,
+    "presentationUrl": "https://pozrdjsncabthtlawhvn.supabase.co/storage/v1/object/public/materials/fll/IP06_Prototype.pptx",
+    "slug": {
+      "_type": "slug",
+      "current": "ip06-prototype"
+    },
+    "title": "IP06_Prototype",
+    "videoUrl": null
+  },
+  {
+    "_createdAt": "2026-03-08T18:33:06Z",
+    "_id": "lesson-formula-roi",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-08T18:33:06Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Что такое ROI миссии?"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "b2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s2",
+            "_type": "span",
+            "text": "ROI (Return on Investment) миссии = Очки ÷ Время выполнения. Это формула, которая помогает приоритизировать миссии: сначала делаем те, где ROI максимальный."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "b3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s3",
+            "_type": "span",
+            "text": "Пороги ROI"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "b4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s4",
+            "_type": "span",
+            "text": "ROI > 0.6 — приоритетная миссия. 0.4–0.6 — рассмотреть. < 0.4 — пропустить или делать в последнюю очередь."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "strategiya-igry-robotov",
+    "isFree": true,
+    "order": 1,
+    "rubricCriterion": "IDENTIFY",
+    "rubricLevel": "EXCEEDS",
+    "slug": {
+      "_type": "slug",
+      "current": "formula-roi"
+    },
+    "tip": "ROI > 0.6 — приоритет. Считай ROI для каждой миссии до написания маршрута.",
+    "title": "Формула ROI",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    "_createdAt": "2026-03-08T18:33:06Z",
+    "_id": "lesson-kak-vybrat-problemu",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-08T18:33:06Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Выбор проблемы для проекта"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "b2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s2",
+            "_type": "span",
+            "text": "По рубрике IDENTIFY, команда должна исследовать 3–5 проблем по теме сезона и выбрать одну с обоснованием. Если команда рассмотрела только одну проблему — это уровень BEGINNING."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "pervyy-innovatsionnyy-proekt",
+    "isFree": true,
+    "order": 1,
+    "rubricCriterion": "IDENTIFY",
+    "rubricLevel": "ACCOMPLISHED",
+    "slug": {
+      "_type": "slug",
+      "current": "kak-vybrat-problemu"
+    },
+    "tip": "Если команда исследовала только 1 проблему — это BEGINNING по рубрике IDENTIFY.",
+    "title": "Как выбрать проблему",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    "_createdAt": "2026-03-08T18:33:06Z",
+    "_id": "lesson-simmetrichnye-kolyosa",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-08T18:33:06Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Почему симметрия важна?"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "b2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s2",
+            "_type": "span",
+            "text": "Симметричное расположение колёс обеспечивает предсказуемое движение робота. Когда расстояние от центра тяжести до каждого колеса одинаковое, повороты становятся точными и повторяемыми."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "osnovy-konstruirovaniya",
+    "isFree": false,
+    "order": 2,
+    "rubricCriterion": "DESIGN",
+    "rubricLevel": "ACCOMPLISHED",
+    "slug": {
+      "_type": "slug",
+      "current": "simmetrichnye-kolyosa"
+    },
+    "tip": "Замерь расстояние от центра тяжести до каждого колеса линейкой прямо на уроке.",
+    "title": "Симметричные колёса",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    "_createdAt": "2026-03-08T18:33:06Z",
+    "_id": "lesson-zhestkoe-osnovanie",
+    "_rev": "rzkYjmGEGnbnpQO2CFLvYX",
+    "_type": "lesson",
+    "_updatedAt": "2026-03-08T18:33:06Z",
+    "content": [
+      {
+        "_key": "b1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Зачем нужно жёсткое основание?"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "b2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s2",
+            "_type": "span",
+            "text": "Жёсткое основание — это фундамент вашего робота. Любая гибкость в конструкции приводит к непредсказуемому движению и потере точности при выполнении миссий. В этом уроке мы разберём, как проверить жёсткость и что делать, если основание «гуляет»."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "b3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s3",
+            "_type": "span",
+            "text": "Как проверить?"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "b4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s4",
+            "_type": "span",
+            "text": "Возьмите собранное основание двумя руками и попробуйте его скрутить. Если есть хоть малейший люфт — укрепляйте конструкцию дополнительными балками."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "courseSlug": "osnovy-konstruirovaniya",
+    "isFree": true,
+    "order": 1,
+    "rubricCriterion": "DESIGN",
+    "rubricLevel": "ACCOMPLISHED",
+    "slug": {
+      "_type": "slug",
+      "current": "zhestkoe-osnovanie"
+    },
+    "tip": "Попроси ученика подёргать основание руками. Если что-то шевелится — это проблема.",
+    "title": "Жёсткое основание",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  }
+]

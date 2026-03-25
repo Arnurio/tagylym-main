@@ -58,7 +58,7 @@ export default function LevelPageContent({
     levelData: { id: string; name: string; color: string } | null;
     categoryData: { name: string } | null;
     checklist: ChecklistItem[];
-    courses: { id: string; title: string; description: string | null; order: number }[];
+    courses: { id: string; title: string; description: string | null; sort_order: number }[];
     artifacts: { id: string; name: string; file_url: string; description: string | null }[];
 }) {
     const tCommon = useTranslations("common");
@@ -200,7 +200,7 @@ export default function LevelPageContent({
                             {courses.map((course, idx) => (
                                 <Link
                                     key={course.id}
-                                    href={`/fll/${season}/${category}/${level}/${course.id}` as any}
+                                    href={`/course/fll?courseId=${course.id}` as any}
                                     className="block bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden hover:shadow-md transition-shadow group"
                                 >
                                     {/* Course Thumbnail */}

@@ -156,7 +156,7 @@ export default function HomePage() {
                         {/* CTA Button */}
                         <motion.div variants={fadeInUp} className="mt-8">
                             <Link
-                                href={"/fll" as "/"}
+                                href={"/auth/login" as "/"}
                                 className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold text-lg transition-all shadow-lg shadow-[#8B5CF6]/30 hover:shadow-xl hover:shadow-[#8B5CF6]/40 hover:scale-[1.02]"
                                 style={{ backgroundColor: '#8B5CF6' }}
                             >
@@ -382,36 +382,75 @@ export default function HomePage() {
 
 
 
-            {/* Presentations Section */}
-            <section id="presentations" className="px-6 py-28 relative" style={{ backgroundColor: '#F0F4F8' }}>
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-center text-3xl md:text-4xl font-bold mb-12" style={{ color: '#0C2D48' }}>
-                        Презентациялар
-                    </h2>
+            {/* Learning Tracks Section (Redesigned Presentations) */}
+            <section id="tracks" className="px-6 py-32 relative overflow-hidden bg-background">
+                {/* Background ambient glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+
+                <div className="max-w-7xl mx-auto relative z-10">
+                    <div className="text-center mb-20">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest mb-4"
+                        >
+                            Learning Paths
+                        </motion.div>
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="text-4xl md:text-5xl font-calistoga text-white"
+                        >
+                            {t("presentations_title") || "Образовательные треки"}
+                        </motion.h2>
+                    </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {presentations.map((track, idx) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[
+                            { title: "FLL Masterclass", desc: "LEGO Education, Spike Prime и стратегия игры для самых юных инженеров.", slug: "fll", color: "#8B5CF6", icon: "🤖" },
+                            { title: "FTC DECODE™", desc: "Продвинутое программирование на Java и проектирование сложных механизмов.", slug: "ftc", color: "#F97316", icon: "⚙️" },
+                            { title: "FGC Incheon 2026", desc: "Глобальные вызовы и подготовка национальной сборной к мировому финалу.", slug: "fgc", color: "#10B981", icon: "🌍" }
+                        ].map((track, idx) => (
                             <motion.div 
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.1 }}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="bg-white shadow rounded-xl p-6 flex flex-col items-start border-t-4"
-                                style={{ borderTopColor: track.color }}
+                                className="glass-card group p-8 border border-white/5 hover:border-white/10 transition-all hover:-translate-y-2 flex flex-col"
                             >
-                                <h3 className="font-bold text-xl mb-2" style={{ color: '#0C2D48' }}>{track.title}</h3>
-                                <p className="text-sm text-[#6B7280] mb-6 flex-grow">{track.description}</p>
+                                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">
+                                    {track.icon}
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-4">{track.title}</h3>
+                                <p className="text-slate-400 leading-relaxed mb-8 flex-grow">{track.desc}</p>
                                 
                                 <Link 
-                                    href={`/presentations/${track.slug}` as `/presentations/${string}`}
-                                    className="px-4 py-2 rounded-lg text-white text-sm font-medium transition-opacity hover:opacity-90 mt-auto"
-                                    style={{ backgroundColor: track.color }}
+                                    href={`/${track.slug}` as "/"}
+                                    className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-primary transition-colors group/link"
                                 >
-                                    Презентацияны ашу
+                                    {t("view_track") || "Подробнее"}
+                                    <svg className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
                                 </Link>
                             </motion.div>
                         ))}
+                    </div>
+
+                    <div className="mt-20 text-center">
+                        <Link 
+                            href="/courses"
+                            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
+                        >
+                            <span>{t("all_courses") || "Все курсы"}</span>
+                            <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+                                →
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </section>

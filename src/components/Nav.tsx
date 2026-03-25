@@ -8,12 +8,13 @@ import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 
 interface NavLink {
-    href: "/" | "/fll" | "/ftc" | "/fgc" | "/presentations/fll-innovation-project" | "/quiz" | "/resources" | "/dashboard" | "/course/fll";
-    labelKey: "fll" | "ftc" | "fgc" | "presentations" | "quiz" | "resources" | "dashboard";
+    href: "/" | "/courses" | "/fll" | "/ftc" | "/fgc" | "/presentations/fll-innovation-project" | "/quiz" | "/resources" | "/dashboard" | "/course/fll";
+    labelKey: "home" | "courses" | "fll" | "ftc" | "fgc" | "presentations" | "quiz" | "resources" | "dashboard";
     authRequired?: boolean;
 }
 
 const NAV_LINKS: NavLink[] = [
+    { href: "/courses", labelKey: "courses" },
     { href: "/course/fll", labelKey: "fll" },
     { href: "/ftc", labelKey: "ftc" },
     { href: "/fgc", labelKey: "fgc" },

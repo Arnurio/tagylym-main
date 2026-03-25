@@ -18,7 +18,8 @@ function extractVideoId(url: string): string {
 }
 
 export default function VideoPlayer({ videoUrl, lessonId, onComplete }: VideoPlayerProps) {
-    const videoId = extractVideoId(videoUrl);
+    const isYouTube = videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be");
+    const videoId = isYouTube ? extractVideoId(videoUrl) : null;
 
     const onEnd = useCallback(async () => {
         if (onComplete) onComplete();
@@ -29,22 +30,32 @@ export default function VideoPlayer({ videoUrl, lessonId, onComplete }: VideoPla
             {/* Decorative gradient border */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/30 via-beginner/30 to-advanced/30 rounded-xl blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
 
-            <div className="relative bg-surface rounded-xl overflow-hidden">
-                <YouTube
-                    videoId={videoId}
-                    className="w-full aspect-video"
-                    iframeClassName="w-full h-full"
-                    opts={{
-                        width: "100%",
-                        height: "100%",
-                        playerVars: {
-                            autoplay: 0,
-                            modestbranding: 1,
-                            rel: 0,
-                        },
-                    }}
-                    onEnd={onEnd}
-                />
+            <div className="relative bg-black rounded-xl overflow-hidden aspect-video flex items-center justify-center">
+                {isYouTube && videoId ? (
+                    <YouTube
+                        videoId={videoId}
+                        className="w-full h-full"
+                        iframeClassName="w-full h-full absolute top-0 left-0"
+                        opts={{
+                            width: "100%",
+                            height: "100%",
+                            playerVars: {
+                                autoplay: 0,
+                                modestbranding: 1,
+                                rel: 0,
+                            },
+                        }}
+                        onEnd={onEnd}
+                    />
+                ) : (
+                    <video
+                        src={videoUrl}
+                        controls
+                        className="w-full h-full outline-none absolute top-0 left-0 object-contain"
+                        onEnded={onEnd}
+                        controlsList="nodownload"
+                    />
+                )}
             </div>
         </div>
     );

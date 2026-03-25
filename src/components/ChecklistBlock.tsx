@@ -27,7 +27,7 @@ export default function ChecklistBlock({ items, checkedItems, onToggle }: Checkl
 
             <ul className="space-y-0">
                 {items
-                    .sort((a, b) => a.order - b.order)
+                    .sort((a, b) => a.sort_order - b.sort_order)
                     .map((item) => (
                         <li key={item.id} className="py-2.5 border-b border-[#F3F4F6] last:border-0 hover:bg-[#F9FAFB] transition-colors -mx-2 px-2 rounded-md">
                             <label className="flex items-start gap-3 cursor-pointer group">

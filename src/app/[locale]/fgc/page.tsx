@@ -1,200 +1,129 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
-
-import { supabase } from "@/lib/supabase";
-
-const DISCIPLINE_CARDS = [
-    { key: "d1", color: "#3B82F6" },
-    { key: "d2", color: "#F97316" },
-    { key: "d3", color: "#22C55E" },
-    { key: "d4", color: "#8B5CF6" },
-] as const;
-
-const COMING_ITEMS = [
-    "coming_1",
-    "coming_2",
-    "coming_3",
-    "coming_4",
-    "coming_5",
-] as const;
-
-const RESOURCES = [
-    {
-        key: "r1_label",
-        url: "https://first.global/fgc/",
-    },
-    {
-        key: "r2_label",
-        url: "https://first.global/press-releases/south-korea-to-host-190-national-teams-at-the-2026-first-global-challenge-robotics-premier-global-competition/",
-    },
-    {
-        key: "r3_label",
-        url: "https://www.revrobotics.com/duo/",
-    },
-] as const;
+import { Link } from "@/i18n/routing";
+import { motion } from "framer-motion";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export default function FGCPage() {
     const t = useTranslations("fgc");
-    const [email, setEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (email.trim()) {
-            await supabase.from("waitlist").insert({ email: email.trim(), competition: "fgc" });
-            setSubmitted(true);
-        }
+    const fadeInUp = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.6 }
     };
 
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-[#1A1A1A]">
-            {/* === Competition Header === */}
-            <div className="bg-white border-b border-[#E5E7EB]">
-                <div className="max-w-5xl mx-auto px-6 py-8">
-                    <p className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest mb-1">
-                        {t("competition")}
-                    </p>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#1A1A1A] mb-1 leading-tight">
-                        {t("season")}
-                    </h1>
-                    <p className="text-base text-[#6B7280] italic mb-1">
-                        {t("tagline")}
-                    </p>
-                    <p className="text-xs text-[#9CA3AF] mb-4">
-                        {t("location")}
-                    </p>
+        <div className="min-h-screen bg-background text-white">
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+                {/* FGC Theme Background */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px]" />
+                    <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px]" />
+                </div>
 
-                    {/* Kazakhstan badge */}
-                    <div className="flex flex-wrap items-center gap-3 mb-1">
-                        <span className="inline-flex items-center gap-1.5 bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#7C3AED] text-xs font-semibold px-3 py-1 rounded-full">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
-                            {t("kz_badge")}
-                        </span>
-                    </div>
+                <div className="max-w-7xl mx-auto relative z-10 text-center">
+                    <motion.div
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        className="inline-block px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-[0.2em] mb-8"
+                    >
+                        FIRST® Global Challenge
+                    </motion.div>
+                    
+                    <motion.h1
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.1 }}
+                        className="text-6xl md:text-8xl font-calistoga mb-6 tracking-tight"
+                    >
+                        INCHEON <span className="text-teal-400">2026</span>
+                    </motion.h1>
 
-                    <div className="flex flex-wrap gap-3 text-xs text-[#6B7280] mt-3">
-                        <span className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-full px-3 py-1 font-medium">
-                            {t("age_range")}
-                        </span>
-                        <span className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-full px-3 py-1 font-medium">
-                            {t("parts_kit")}
-                        </span>
+                    <motion.p
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.2 }}
+                        className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-12"
+                    >
+                        {t("description") || "Национальная сборная готовится к мировому вызову. Уникальный опыт, международное сотрудничество и глобальные проблемы."}
+                    </motion.p>
+
+                    <motion.div
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.3 }}
+                        className="flex flex-wrap justify-center gap-4"
+                    >
+                        <button 
+                            onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-8 py-4 rounded-xl bg-teal-600 text-white font-bold text-lg shadow-xl shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.05] transition-all"
+                        >
+                            {t("join_waitlist") || "Join Waitlist"}
+                        </button>
+                        <Link 
+                            href="/"
+                            className="px-8 py-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md text-white font-bold text-lg hover:bg-white/10 transition-all"
+                        >
+                            {t("back_to_home") || "Back to Home"}
+                        </Link>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Values / Features */}
+            <section className="py-24 px-6 relative z-10">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {[
+                        { title: "National Team", desc: "Мы готовим лучших из лучших для представления страны на мировой арене.", icon: "🇰🇿" },
+                        { title: "Global Impact", desc: "Решайте реальные мировые проблемы через призму робототехники и инноваций.", icon: "🌎" },
+                        { title: "Elite Mentoring", desc: "Прямой доступ к менторам, имеющим опыт участия в международных финалах.", icon: "🥇" }
+                    ].map((feature, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="glass-card p-10 border border-white/5 hover:border-teal-500/30 transition-all hover:-translate-y-2 group"
+                        >
+                            <div className="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">{feature.icon}</div>
+                            <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                            <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Waitlist Section */}
+            <section id="waitlist" className="py-32 px-6">
+                <div className="max-w-4xl mx-auto relative">
+                     <div className="absolute inset-0 bg-teal-500/5 rounded-[3rem] blur-3xl -z-10" />
+                     <div className="glass-card p-12 md:p-20 text-center border-white/10">
+                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title") || "Join the Selection Process"}</h2>
+                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle") || "Be notified when the national team selection starts and access preparatory materials."}</p>
+                        <div className="max-w-md mx-auto">
+                            <WaitlistForm track="fgc" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <main className="max-w-5xl mx-auto px-6 py-8 space-y-10">
-                {/* === Discipline Cards === */}
-                <section>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {DISCIPLINE_CARDS.map(({ key, color }) => (
-                            <div
-                                key={key}
-                                className="relative bg-white rounded-xl border border-[#E5E7EB] p-4 opacity-100 hover:opacity-90 transition-opacity"
-                                style={{ cursor: "default" }}
-                            >
-                                {/* "Скоро" badge */}
-                                <span
-                                    className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
-                                    style={{ backgroundColor: color }}
-                                >
-                                    {t("discipline_soon_badge")}
-                                </span>
-
-                                {/* Colour accent bar */}
-                                <div
-                                    className="w-8 h-1 rounded-full mb-3"
-                                    style={{ backgroundColor: color }}
-                                />
-
-                                <h3
-                                    className="text-sm font-bold mb-2 leading-snug"
-                                    style={{ color }}
-                                >
-                                    {t(`${key}_title` as Parameters<typeof t>[0])}
-                                </h3>
-                                <p className="text-xs text-[#6B7280] leading-[1.5]">
-                                    {t(`${key}_desc` as Parameters<typeof t>[0])}
-                                </p>
-                            </div>
-                        ))}
+             {/* Resources Footer */}
+             <footer className="py-20 border-t border-white/5">
+                <div className="max-w-7xl mx-auto px-6 text-center">
+                    <h4 className="text-xs font-black tracking-[0.3em] uppercase text-slate-500 mb-8">Official Resources</h4>
+                    <div className="flex flex-wrap justify-center gap-10">
+                        <a href="https://first.global/" target="_blank" className="text-slate-400 hover:text-teal-400 transition-colors font-bold uppercase text-[10px] tracking-widest">FIRST Global</a>
+                        <a href="https://first.global/fgc/" target="_blank" className="text-slate-400 hover:text-teal-400 transition-colors font-bold uppercase text-[10px] tracking-widest">The Challenge</a>
                     </div>
-                </section>
-
-                {/* === What's Coming === */}
-                <section className="bg-white rounded-xl border border-[#E5E7EB] p-6">
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-4">
-                        {t("coming_section")}
-                    </h2>
-                    <ul className="space-y-2">
-                        {COMING_ITEMS.map((item) => (
-                            <li
-                                key={item}
-                                className="flex items-start gap-3 text-sm text-[#374151]"
-                            >
-                                <span className="mt-0.5 w-5 h-5 flex-shrink-0 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 flex items-center justify-center">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
-                                </span>
-                                {t(item as Parameters<typeof t>[0])}
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-
-                {/* === Key Resources === */}
-                <section>
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-3">
-                        {t("resources_section")}
-                    </h2>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                        {RESOURCES.map(({ key, url }) => (
-                            <a
-                                key={key}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 bg-white border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm font-medium text-[#7C3AED] hover:bg-[#F5F3FF] hover:border-[#8B5CF6]/30 transition-colors"
-                            >
-                                {t(key as Parameters<typeof t>[0])} →
-                            </a>
-                        ))}
-                    </div>
-                </section>
-
-                {/* === Waitlist CTA === */}
-                <section className="bg-white border border-[#E5E7EB] rounded-xl p-6">
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-4">
-                        {t("waitlist_title")}
-                    </h2>
-                    {submitted ? (
-                        <div className="bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#16A34A] text-sm font-medium px-4 py-3 rounded-lg">
-                            {t("waitlist_success")}
-                        </div>
-                    ) : (
-                        <form
-                            onSubmit={handleSubmit}
-                            className="flex flex-col sm:flex-row gap-3 max-w-md"
-                        >
-                            <input
-                                type="email"
-                                required
-                                placeholder={t("waitlist_placeholder")}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="flex-1 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1A1A1A] placeholder:text-[#9CA3AF] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#8B5CF6] transition-colors"
-                            />
-                            <button
-                                type="submit"
-                                className="bg-[#8B5CF6] hover:bg-violet-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap"
-                            >
-                                {t("waitlist_button")}
-                            </button>
-                        </form>
-                    )}
-                </section>
-            </main>
+                </div>
+            </footer>
         </div>
     );
 }

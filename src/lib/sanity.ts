@@ -10,17 +10,19 @@ export const sanityClient = createClient({
 
 // ─── Lesson queries ──────────────────────────────────────
 
-export async function getLessonBySlug(slug: string) {
+export async function getLessonBySlug(slug: string, locale: string = 'kk') {
+    const l = locale === 'en' ? 'en' : locale === 'ru' ? 'ru' : 'kk';
     return sanityClient.fetch(
         `*[_type == "lesson" && slug.current == $slug][0]{
-      title,
+      "title": coalesce(title_${l}, title_kk, title),
       "slug": slug.current,
       courseSlug,
       order,
       isFree,
-      videoUrl,
-      content,
-      tip,
+      "videoUrl": coalesce(videoUrl_${l}, videoUrl_kk, videoUrl),
+      "presentationUrl": coalesce(presentationUrl_${l}, presentationUrl_kk, presentationUrl),
+      "content": coalesce(content_${l}, content_kk, content),
+      "tip": coalesce(tip_${l}, tip_kk, tip),
       rubricCriterion,
       rubricLevel
     }`,
@@ -28,14 +30,15 @@ export async function getLessonBySlug(slug: string) {
     );
 }
 
-export async function getLessonsByCourseSlug(courseSlug: string) {
+export async function getLessonsByCourseSlug(courseSlug: string, locale: string = 'kk') {
+    const l = locale === 'en' ? 'en' : locale === 'ru' ? 'ru' : 'kk';
     return sanityClient.fetch(
         `*[_type == "lesson" && courseSlug == $courseSlug] | order(order asc){
-      title,
+      "title": coalesce(title_${l}, title_kk, title),
       "slug": slug.current,
       order,
       isFree,
-      videoUrl
+      "videoUrl": coalesce(videoUrl_${l}, videoUrl_kk, videoUrl)
     }`,
         { courseSlug }
     );
@@ -43,12 +46,13 @@ export async function getLessonsByCourseSlug(courseSlug: string) {
 
 // ─── Course queries ──────────────────────────────────────
 
-export async function getCourseBySlug(slug: string) {
+export async function getCourseBySlug(slug: string, locale: string = 'kk') {
+    const l = locale === 'en' ? 'en' : locale === 'ru' ? 'ru' : 'kk';
     return sanityClient.fetch(
         `*[_type == "course" && slug.current == $slug][0]{
-      title,
+      "title": coalesce(title_${l}, title_kk, title),
       "slug": slug.current,
-      description,
+      "description": coalesce(description_${l}, description_kk, description),
       category,
       level,
       order

@@ -19,6 +19,7 @@ interface SanityLesson {
     order: number;
     isFree: boolean;
     videoUrl: string | null;
+    presentationUrl: string | null;
     content: { _type: string; [key: string]: unknown }[] | null;
     tip: string | null;
     rubricCriterion: string | null;
@@ -30,14 +31,14 @@ export default function LessonPage({
 }: {
     params: Promise<{ locale: string; slug: string }>;
 }) {
-    const [resolvedParams, setResolvedParams] = useState<{ slug: string } | null>(null);
+    const [resolvedParams, setResolvedParams] = useState<{ locale: string; slug: string } | null>(null);
 
     useEffect(() => {
         params.then((p) => setResolvedParams(p));
     }, [params]);
 
     if (!resolvedParams) return <LessonLoading />;
-    return <LessonContent slug={resolvedParams.slug} />;
+    return <LessonContent slug={resolvedParams.slug} locale={resolvedParams.locale} />;
 }
 
 function LessonLoading() {
@@ -52,7 +53,7 @@ function LessonLoading() {
     );
 }
 
-function LessonContent({ slug }: { slug: string }) {
+function LessonContent({ slug, locale }: { slug: string; locale: string }) {
     const t = useTranslations("lesson");
     const tCommon = useTranslations("common");
     const [lesson, setLesson] = useState<SanityLesson | null>(null);
@@ -70,7 +71,7 @@ function LessonContent({ slug }: { slug: string }) {
 
             try {
                 // Fetch from Sanity
-                const data = await getLessonBySlug(slug);
+                const data = await getLessonBySlug(slug, locale);
 
                 if (!data) {
                     setNotFound(true);
@@ -82,7 +83,7 @@ function LessonContent({ slug }: { slug: string }) {
 
                 // Fetch sibling lessons in same course from Sanity
                 const { getLessonsByCourseSlug } = await import("@/lib/sanity");
-                const sibs = await getLessonsByCourseSlug(data.courseSlug);
+                const sibs = await getLessonsByCourseSlug(data.courseSlug, locale);
                 if (sibs) setSiblings(sibs);
 
                 // Look up the Supabase lesson UUID by title match
@@ -168,6 +169,26 @@ function LessonContent({ slug }: { slug: string }) {
                             lessonId={lesson.slug}
                             onComplete={handleVideoEnd}
                         />
+                    </div>
+                )}
+
+                {/* Presentation Embedded Viewer */}
+                {lesson.presentationUrl && (
+                    <div className="mb-8 border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm bg-white">
+                        <div className="bg-[#1A1A1A] px-4 py-3 flex justify-between items-center text-white">
+                            <h3 className="font-semibold text-sm">Презентация к уроку</h3>
+                            <a href={lesson.presentationUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-[#3B82F6] hover:text-[#60A5FA] flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                Скачать / Открыть
+                            </a>
+                        </div>
+                        <iframe 
+                            src={lesson.presentationUrl.toLowerCase().endsWith('.pdf') 
+                                ? lesson.presentationUrl 
+                                : `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(lesson.presentationUrl)}`} 
+                            className="w-full h-[500px] md:h-[600px] bg-gray-50" 
+                            allowFullScreen>
+                        </iframe>
                     </div>
                 )}
 

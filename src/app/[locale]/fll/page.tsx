@@ -51,7 +51,7 @@ function FLLPageContent({
     seasonName,
     seasonYear,
 }: {
-    categories: { id: string; name: string; slug: string; icon: string; order: number }[];
+    categories: { id: string; name: string; slug: string; icon: string; sort_order: number }[];
     courses: EnrichedCourse[];
     seasonSlug: string;
     seasonName: string;

@@ -1,191 +1,130 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
-
-import { supabase } from "@/lib/supabase";
-
-const DISCIPLINE_CARDS = [
-    { key: "d1", color: "#3B82F6" },
-    { key: "d2", color: "#F97316" },
-    { key: "d3", color: "#22C55E" },
-    { key: "d4", color: "#8B5CF6" },
-] as const;
-
-const COMING_ITEMS = [
-    "coming_1",
-    "coming_2",
-    "coming_3",
-    "coming_4",
-    "coming_5",
-] as const;
-
-const RESOURCES = [
-    {
-        key: "r1_label",
-        url: "https://www.firstinspires.org/programs/ftc/",
-    },
-    {
-        key: "r2_label",
-        url: "https://ftc-resources.firstinspires.org/ftc/game",
-    },
-    {
-        key: "r3_label",
-        url: "https://www.gobilda.com/ftc-starter-bot-resource-guide-decode/",
-    },
-] as const;
+import { Link } from "@/i18n/routing";
+import { motion } from "framer-motion";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export default function FTCPage() {
     const t = useTranslations("ftc");
-    const [email, setEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (email.trim()) {
-            await supabase.from("waitlist").insert({ email: email.trim(), competition: "ftc" });
-            setSubmitted(true);
-        }
+    const fadeInUp = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.6 }
     };
 
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-[#1A1A1A]">
-            {/* === Competition Header === */}
-            <div className="bg-white border-b border-[#E5E7EB]">
-                <div className="max-w-5xl mx-auto px-6 py-8">
-                    <p className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest mb-1">
-                        {t("competition")}
-                    </p>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#1A1A1A] mb-1 leading-tight">
-                        {t("season")}
-                    </h1>
-                    <p className="text-base text-[#6B7280] italic mb-4">
-                        {t("tagline")}
-                    </p>
-                    <div className="flex flex-wrap gap-3 text-xs text-[#6B7280]">
-                        <span className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-full px-3 py-1 font-medium">
-                            {t("age_range")}
-                        </span>
-                        <span className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-full px-3 py-1 font-medium">
-                            {t("parts_kit")}
-                        </span>
-                        <span className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-full px-3 py-1 font-medium">
-                            {t("programming")}
-                        </span>
+        <div className="min-h-screen bg-background text-white">
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+                {/* DECODE Theme Background */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
+                    <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-accent/20 rounded-full blur-[120px]" />
+                </div>
+
+                <div className="max-w-7xl mx-auto relative z-10 text-center">
+                    <motion.div
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-[0.2em] mb-8"
+                    >
+                        FIRST® Tech Challenge
+                    </motion.div>
+                    
+                    <motion.h1
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.1 }}
+                        className="text-6xl md:text-8xl font-calistoga mb-6 tracking-tight"
+                    >
+                        DECODE<span className="text-primary">™</span>
+                    </motion.h1>
+
+                    <motion.p
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.2 }}
+                        className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-12"
+                    >
+                        {t("description") || "Погрузитесь в мир продвинутой робототехники. Изучайте Java, системы управления и инженерное проектирование."}
+                    </motion.p>
+
+                    <motion.div
+                        variants={fadeInUp}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.3 }}
+                        className="flex flex-wrap justify-center gap-4"
+                    >
+                        <Link 
+                            href="/courses"
+                            className="px-8 py-4 rounded-xl bg-primary text-white font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.05] transition-all"
+                        >
+                            {t("start_learning") || "Start Learning"}
+                        </Link>
+                        <button 
+                            onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-8 py-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md text-white font-bold text-lg hover:bg-white/10 transition-all"
+                        >
+                            {t("join_waitlist") || "Join Waitlist"}
+                        </button>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Disciplines / Features */}
+            <section className="py-24 px-6 relative z-10">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {[
+                        { title: "Advanced Java", desc: "Master complex control loops, PID controllers, and RoadRunner pathing.", icon: "💻" },
+                        { title: "Engineering", desc: "Learn professional robot modeling using Onshape and specialized parts kits.", icon: "🔧" },
+                        { title: "Competition", desc: "Optimize your autonomous and tele-op strategies for the DECODE™ season.", icon: "🎯" }
+                    ].map((feature, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="glass-card p-10 border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-2 group"
+                        >
+                            <div className="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">{feature.icon}</div>
+                            <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                            <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Waitlist Section */}
+            <section id="waitlist" className="py-32 px-6">
+                <div className="max-w-4xl mx-auto relative">
+                     <div className="absolute inset-0 bg-primary/5 rounded-[3rem] blur-3xl -z-10" />
+                     <div className="glass-card p-12 md:p-20 text-center border-white/10">
+                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title") || "Be the first to know"}</h2>
+                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle") || "Enter your email to get notified when the DECODE curriculum drops and new modules are released."}</p>
+                        <div className="max-w-md mx-auto">
+                            <WaitlistForm track="ftc" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <main className="max-w-5xl mx-auto px-6 py-8 space-y-10">
-                {/* === Discipline Cards === */}
-                <section>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {DISCIPLINE_CARDS.map(({ key, color }) => (
-                            <div
-                                key={key}
-                                className="relative bg-white rounded-xl border border-[#E5E7EB] p-4 opacity-100 hover:opacity-90 transition-opacity"
-                                style={{ cursor: "default" }}
-                            >
-                                {/* "Скоро" badge */}
-                                <span
-                                    className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
-                                    style={{ backgroundColor: color }}
-                                >
-                                    {t("discipline_soon_badge")}
-                                </span>
-
-                                {/* Colour accent bar */}
-                                <div
-                                    className="w-8 h-1 rounded-full mb-3"
-                                    style={{ backgroundColor: color }}
-                                />
-
-                                <h3
-                                    className="text-sm font-bold mb-2 leading-snug"
-                                    style={{ color }}
-                                >
-                                    {t(`${key}_title` as Parameters<typeof t>[0])}
-                                </h3>
-                                <p className="text-xs text-[#6B7280] leading-[1.5]">
-                                    {t(`${key}_desc` as Parameters<typeof t>[0])}
-                                </p>
-                            </div>
-                        ))}
+            {/* Resources Footer */}
+            <footer className="py-20 border-t border-white/5">
+                <div className="max-w-7xl mx-auto px-6 text-center">
+                    <h4 className="text-xs font-black tracking-[0.3em] uppercase text-slate-500 mb-8">Official Resources</h4>
+                    <div className="flex flex-wrap justify-center gap-10">
+                        <a href="https://www.firstinspires.org/robotics/ftc" target="_blank" className="text-slate-400 hover:text-primary transition-colors font-bold uppercase text-[10px] tracking-widest">First Inspires</a>
+                        <a href="https://ftc-events.firstinspires.org/" target="_blank" className="text-slate-400 hover:text-primary transition-colors font-bold uppercase text-[10px] tracking-widest">Events Portal</a>
+                        <a href="https://www.gobilda.com/" target="_blank" className="text-slate-400 hover:text-primary transition-colors font-bold uppercase text-[10px] tracking-widest">goBILDA®</a>
                     </div>
-                </section>
-
-                {/* === What's Coming === */}
-                <section className="bg-white rounded-xl border border-[#E5E7EB] p-6">
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-4">
-                        {t("coming_section")}
-                    </h2>
-                    <ul className="space-y-2">
-                        {COMING_ITEMS.map((item) => (
-                            <li
-                                key={item}
-                                className="flex items-start gap-3 text-sm text-[#374151]"
-                            >
-                                <span className="mt-0.5 w-5 h-5 flex-shrink-0 rounded-full bg-[#F97316]/10 border border-[#F97316]/30 flex items-center justify-center">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]" />
-                                </span>
-                                {t(item as Parameters<typeof t>[0])}
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-
-                {/* === Key Resources === */}
-                <section>
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-3">
-                        {t("resources_section")}
-                    </h2>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                        {RESOURCES.map(({ key, url }) => (
-                            <a
-                                key={key}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 bg-white border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm font-medium text-[#2563EB] hover:bg-[#EFF6FF] hover:border-[#2563EB]/30 transition-colors"
-                            >
-                                {t(key as Parameters<typeof t>[0])} →
-                            </a>
-                        ))}
-                    </div>
-                </section>
-
-                {/* === Waitlist CTA === */}
-                <section className="bg-white border border-[#E5E7EB] rounded-xl p-6">
-                    <h2 className="text-base font-bold text-[#1A1A1A] mb-4">
-                        {t("waitlist_title")}
-                    </h2>
-                    {submitted ? (
-                        <div className="bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#16A34A] text-sm font-medium px-4 py-3 rounded-lg">
-                            {t("waitlist_success")}
-                        </div>
-                    ) : (
-                        <form
-                            onSubmit={handleSubmit}
-                            className="flex flex-col sm:flex-row gap-3 max-w-md"
-                        >
-                            <input
-                                type="email"
-                                required
-                                placeholder={t("waitlist_placeholder")}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="flex-1 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1A1A1A] placeholder:text-[#9CA3AF] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#F97316] transition-colors"
-                            />
-                            <button
-                                type="submit"
-                                className="bg-[#F97316] hover:bg-orange-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap"
-                            >
-                                {t("waitlist_button")}
-                            </button>
-                        </form>
-                    )}
-                </section>
-            </main>
+                </div>
+            </footer>
         </div>
     );
 }

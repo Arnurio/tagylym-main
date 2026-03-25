@@ -34,7 +34,7 @@ export interface Category {
     name: string;
     slug: string;
     icon: string;
-    order: number;
+    sort_order: number;
 }
 
 export interface Level {
@@ -42,7 +42,7 @@ export interface Level {
     category_id: string;
     name: string;
     color: string;
-    order: number;
+    sort_order: number;
 }
 
 export interface Course {
@@ -50,7 +50,7 @@ export interface Course {
     level_id: string;
     title: string;
     description: string | null;
-    order: number;
+    sort_order: number;
 }
 
 export interface Lesson {
@@ -59,7 +59,7 @@ export interface Lesson {
     title: string;
     video_url: string | null;
     content_md: string | null;
-    order: number;
+    sort_order: number;
     is_free: boolean;
 }
 
@@ -87,7 +87,7 @@ export interface ChecklistItem {
     id: string;
     level_id: string;
     text: string;
-    order: number;
+    sort_order: number;
 }
 
 export interface Progress {

@@ -1,20 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
-import ProgressBar from "@/components/ProgressBar";
-import type { Progress } from "@/types";
+import type { Progress, Lesson } from "@/types";
+
+// Dashboard Components
+import ProgressCards from "@/components/dashboard/ProgressCards";
+import RecentActivity from "@/components/dashboard/RecentActivity";
+import ChecklistStatus from "@/components/dashboard/ChecklistStatus";
 
 export default function DashboardPage() {
+    const locale = useLocale();
     const t = useTranslations("dashboard");
     const tCommon = useTranslations("common");
     const tCourses = useTranslations("courses");
     const [user, setUser] = useState<{ id: string; email?: string } | null>(null);
     const [progress, setProgress] = useState<Progress[]>([]);
-    const [categories, setCategories] = useState<{ id: string; name: string; icon: string }[]>([]);
+    const [nextLesson, setNextLesson] = useState<Lesson | null>(null);
+    const [categories, setCategories] = useState<{ id: string; name: string; name_kk?: string; name_en?: string; icon: string }[]>([]);
     const [categoryStats, setCategoryStats] = useState<Record<string, { total: number; completed: number }>>({});
+    const [checklistStats, setChecklistStats] = useState<Record<string, { total: number; completed: number }>>({});
+    const [recentLessons, setRecentLessons] = useState<Record<string, string>>({});
+    const [levelNames, setLevelNames] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,85 +31,155 @@ export default function DashboardPage() {
             const { data: { user: authUser } } = await supabase.auth.getUser();
             setUser(authUser ? { id: authUser.id, email: authUser.email } : null);
 
-            // Fetch categories
-            const { data: cats } = await supabase
-                .from("categories")
-                .select("id, name, icon")
-                .order("order");
-            if (cats) setCategories(cats);
+            // Fetch base data: categories and initial progress
+            const [catsRes, progRes] = await Promise.all([
+                supabase.from("categories").select("id, name, icon").order("sort_order"),
+                authUser ? supabase.from("progress").select("*").eq("user_id", authUser.id).order("completed_at", { ascending: false }) : Promise.resolve({ data: [] })
+            ]);
 
-            // Fetch user progress
-            let completedIds: string[] = [];
-            if (authUser) {
-                const { data: prog } = await supabase
-                    .from("progress")
-                    .select("*")
-                    .eq("user_id", authUser.id)
-                    .order("completed_at", { ascending: false });
-                if (prog) {
-                    setProgress(prog);
-                    completedIds = prog.map((p) => p.lesson_id);
-                }
+            const cats = catsRes.data;
+            const prog = progRes.data;
+
+            if (cats) setCategories(cats);
+            if (prog) setProgress(prog);
+
+            if (!cats || cats.length === 0) {
+                setLoading(false);
+                return;
             }
 
-            // Compute per-category stats: fetch levels → courses → lessons grouped by category
-            if (cats && cats.length > 0) {
-                const stats: Record<string, { total: number; completed: number }> = {};
+            const completedIds = prog?.map((p) => p.lesson_id) || [];
+            const lastCompletedId = prog && prog.length > 0 ? prog[0].lesson_id : null;
+            const catIds = cats.map((c) => c.id);
 
-                // Fetch all levels for these categories
-                const catIds = cats.map((c) => c.id);
-                const { data: levels } = await supabase
-                    .from("levels")
-                    .select("id, category_id")
-                    .in("category_id", catIds);
+            // Fetch secondary data: levels and courses in parallel
+            const [levelsRes, coursesRes] = await Promise.all([
+                supabase.from("levels").select("id, category_id, name, color").in("category_id", catIds),
+                supabase.from("courses").select("id, level_id").in("level_id", (await supabase.from("levels").select("id").in("category_id", catIds)).data?.map(l => l.id) || [])
+            ]);
 
-                if (levels && levels.length > 0) {
-                    const levelIds = levels.map((l) => l.id);
+            const levels = levelsRes.data;
+            let courses = coursesRes.data;
 
-                    // Fetch all courses for those levels
-                    const { data: courses } = await supabase
-                        .from("courses")
-                        .select("id, level_id")
-                        .in("level_id", levelIds);
+            // If we don't have courses yet (because we need levelIds), fetch them now.
+            // Actually, let's just fetch everything track-related in one go if possible.
+            const levelIds = levels?.map(l => l.id) || [];
+            if (levelIds.length > 0 && (!courses || courses.length === 0)) {
+                const { data } = await supabase.from("courses").select("id, level_id").in("level_id", levelIds);
+                courses = data;
+            }
 
-                    if (courses && courses.length > 0) {
-                        const courseIds = courses.map((c) => c.id);
+            if (levels) {
+                const lNames: Record<string, string> = {};
+                levels.forEach(l => {
+                    const nameMap: Record<string, string> = {
+                        "Начинающий": tCourses("beginner"),
+                        "Средний": tCourses("intermediate"),
+                        "Продвинутый": tCourses("advanced")
+                    };
+                    const locName = locale === 'kk' ? (l as any).name_kk : (locale === 'en' ? (l as any).name_en : l.name);
+                    lNames[l.id] = nameMap[l.name] || locName || l.name;
+                });
+                setLevelNames(lNames);
+            }
 
-                        // Fetch all lessons for those courses
-                        const { data: lessons } = await supabase
-                            .from("lessons")
-                            .select("id, course_id")
-                            .in("course_id", courseIds);
+            if (courses && courses.length > 0) {
+                const courseIds = courses.map((c) => c.id);
 
-                        if (lessons) {
-                            // Build lookup: lessonId → categoryId
-                            const courseToLevel: Record<string, string> = {};
-                            courses.forEach((c) => { courseToLevel[c.id] = c.level_id; });
-                            const levelToCategory: Record<string, string> = {};
-                            levels.forEach((l) => { levelToCategory[l.id] = l.category_id; });
+                // Fetch lessons and checklist data in parallel
+                const [lessonsRes, checklistItemsRes, checklistProgRes] = await Promise.all([
+                    supabase.from("lessons").select("id, course_id, sort_order").in("course_id", courseIds).order("sort_order", { ascending: true }),
+                    supabase.from("checklist_items").select("id, level_id").in("level_id", levelIds),
+                    authUser ? supabase.from("checklist_progress").select("item_id, checked").eq("user_id", authUser.id).eq("checked", true) : Promise.resolve({ data: [] })
+                ]);
 
-                            lessons.forEach((lesson) => {
-                                const levelId = courseToLevel[lesson.course_id];
-                                const catId = levelToCategory[levelId];
-                                if (!catId) return;
-                                if (!stats[catId]) stats[catId] = { total: 0, completed: 0 };
-                                stats[catId].total += 1;
-                                if (completedIds.includes(lesson.id)) {
-                                    stats[catId].completed += 1;
-                                }
+                const allLessons = lessonsRes.data;
+                const checkItems = checklistItemsRes.data;
+                const checkProg = checklistProgRes.data;
+
+                if (allLessons) {
+                    // Title mapping for visible lessons
+                    const recentLessonIds = completedIds.slice(0, 5);
+                    if (recentLessonIds.length > 0) {
+                        const { data: titles } = await supabase.from("lessons").select("id, title").in("id", recentLessonIds);
+                        if (titles) {
+                            const titleMap: Record<string, string> = {};
+                            titles.forEach(l => {
+                                const t = locale === 'kk' ? (l as any).title_kk : (locale === 'en' ? (l as any).title_en : l.title);
+                                titleMap[l.id] = t || l.title;
                             });
+                            setRecentLessons(titleMap);
+                        }
+                    }
+
+                    // Stats calculation
+                    const courseToLevel: Record<string, string> = {};
+                    courses.forEach((c) => { courseToLevel[c.id] = c.level_id; });
+                    const levelToCategory: Record<string, string> = {};
+                    levels?.forEach((l) => { levelToCategory[l.id] = l.category_id; });
+
+                    const stats: Record<string, { total: number; completed: number }> = {};
+                    allLessons.forEach((lesson) => {
+                        const levelId = courseToLevel[lesson.course_id];
+                        const catId = levelToCategory[levelId];
+                        if (!catId) return;
+                        if (!stats[catId]) stats[catId] = { total: 0, completed: 0 };
+                        stats[catId].total += 1;
+                        if (completedIds.includes(lesson.id)) stats[catId].completed += 1;
+                    });
+                    setCategoryStats(stats);
+
+                    // Refined Continue Learning Logic
+                    let foundNext = false;
+                    if (lastCompletedId) {
+                        const currentLesson = allLessons.find(l => l.id === lastCompletedId);
+                        if (currentLesson) {
+                            // 1. Next in same course
+                            const nextInCourse = allLessons.find(l => 
+                                l.course_id === currentLesson.course_id && 
+                                l.sort_order > currentLesson.sort_order
+                            );
+                            if (nextInCourse) {
+                                const { data: fullNext } = await supabase.from("lessons").select("*").eq("id", nextInCourse.id).single();
+                                if (fullNext) { setNextLesson(fullNext); foundNext = true; }
+                            } else {
+                                // 2. First in next course
+                                const currentIndexInTrack = allLessons.findIndex(l => l.id === lastCompletedId);
+                                if (currentIndexInTrack !== -1 && currentIndexInTrack < allLessons.length - 1) {
+                                    const nextId = allLessons[currentIndexInTrack + 1].id;
+                                    const { data: fullNext } = await supabase.from("lessons").select("*").eq("id", nextId).single();
+                                    if (fullNext) { setNextLesson(fullNext); foundNext = true; }
+                                }
+                            }
+                        }
+                    }
+                    if (!foundNext) {
+                        const firstIncomplete = allLessons.find(l => !completedIds.includes(l.id));
+                        if (firstIncomplete) {
+                            const { data: fullNext } = await supabase.from("lessons").select("*").eq("id", firstIncomplete.id).single();
+                            if (fullNext) setNextLesson(fullNext);
                         }
                     }
                 }
 
-                setCategoryStats(stats);
+                // Checklist stats
+                if (checkItems) {
+                    const cStats: Record<string, { total: number; completed: number }> = {};
+                    const checkedIds = checkProg?.map(p => p.item_id) || [];
+                    checkItems.forEach(item => {
+                        if (!cStats[item.level_id]) cStats[item.level_id] = { total: 0, completed: 0 };
+                        cStats[item.level_id].total += 1;
+                        if (checkedIds.includes(item.id)) cStats[item.level_id].completed += 1;
+                    });
+                    setChecklistStats(cStats);
+                }
             }
 
             setLoading(false);
         };
 
         init();
-    }, []);
+    }, [locale]);
 
     return (
         <div className="min-h-screen bg-[#0f172a] text-[#f1f5f9]">
@@ -115,27 +194,28 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Quick Access: Continue Learning */}
-                    {progress.length > 0 && (
+                    {nextLesson && (
                         <Link
-                            href={`/lessons/${progress[0].lesson_id}` as "/"}
-                            className="inline-flex bg-[#8B5CF6] hover:bg-purple-500 text-white font-semibold py-3 px-8 rounded-xl transition-all shadow-lg shadow-purple-500/30 whitespace-nowrap"
+                            href={`/lessons/${nextLesson.id}` as "/"}
+                            className="group inline-flex bg-[#8B5CF6] hover:bg-purple-500 text-white font-semibold py-3 px-8 rounded-xl transition-all shadow-lg shadow-purple-500/30 whitespace-nowrap items-center gap-2"
                         >
-                            {t("continue_learning")}
+                            <span>{t("continue_learning")}</span>
+                            <span className="group-hover:translate-x-1 transition-transform">→</span>
                         </Link>
                     )}
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-16">
+                    <div className="text-center py-16 animate-pulse">
                         <p className="text-[#94a3b8]">{tCommon("loading")}</p>
                     </div>
                 ) : !user ? (
-                    <div className="text-center py-16">
+                    <div className="text-center py-16 bg-[#1e293b] rounded-2xl border border-[#334155]">
                         <span className="text-4xl mb-4 block">🔒</span>
                         <p className="text-[#94a3b8] mb-4">{t("login_prompt")}</p>
                         <Link
                             href="/auth/login"
-                            className="inline-flex px-6 py-3 rounded-xl bg-[#8B5CF6] text-white font-medium hover:opacity-90 transition-opacity"
+                            className="inline-flex px-6 py-3 rounded-xl bg-[#8B5CF6] text-white font-medium hover:bg-purple-500 transition-colors"
                         >
                             {t("login_btn")}
                         </Link>
@@ -148,25 +228,11 @@ export default function DashboardPage() {
                                 <span className="text-lg">📊</span>
                                 {t("progress")}
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {categories.map((cat) => {
-                                    const stats = categoryStats[cat.id] ?? { total: 0, completed: 0 };
-                                    return (
-                                        <div key={cat.id} className="bg-[#1e293b] rounded-xl border border-[#334155] p-6">
-                                            <div className="flex items-center gap-3 mb-4">
-                                                <span className="text-2xl">{cat.icon}</span>
-                                                <div>
-                                                    <h3 className="font-semibold text-white">{cat.name}</h3>
-                                                    <p className="text-xs text-[#94a3b8]">
-                                                        {stats.completed} / {stats.total} {t("lessons_completed")}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <ProgressBar completed={stats.completed} total={Math.max(stats.total, 1)} />
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                            <ProgressCards 
+                                categories={categories} 
+                                categoryStats={categoryStats} 
+                                locale={locale} 
+                            />
                         </section>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -176,26 +242,11 @@ export default function DashboardPage() {
                                     <span className="text-lg">🕐</span>
                                     {t("recent")}
                                 </h2>
-                                {progress.length === 0 ? (
-                                    <p className="text-sm text-[#94a3b8]">{t("noProgress")}</p>
-                                ) : (
-                                    <div className="space-y-3">
-                                        {progress.slice(0, 3).map((p, idx) => (
-                                            <Link href={`/lessons/${p.lesson_id}` as "/"} key={`${p.user_id}-${p.lesson_id}`} className="bg-[#1e293b] rounded-xl border border-[#334155] hover:border-[#8B5CF6] transition-colors p-4 flex items-center gap-4 cursor-pointer">
-                                                <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/15 flex items-center justify-center text-sm font-bold text-[#8B5CF6] shrink-0">
-                                                    {idx + 1}
-                                                </div>
-                                                <div className="flex-1">
-                                                    <p className="text-sm text-white font-medium">{tCommon("lesson")}: {p.lesson_id}</p>
-                                                    <p className="text-xs text-[#94a3b8]">
-                                                        {new Date(p.completed_at).toLocaleDateString("kk-KZ")}
-                                                    </p>
-                                                </div>
-                                                <div className="text-[#94a3b8]">→</div>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
+                                <RecentActivity 
+                                    progress={progress} 
+                                    recentLessons={recentLessons} 
+                                    locale={locale} 
+                                />
                             </section>
 
                             {/* Checklist Status */}
@@ -204,23 +255,12 @@ export default function DashboardPage() {
                                     <span className="text-lg">✅</span>
                                     {t("checklist")}
                                 </h2>
-                                <div className="grid grid-cols-1 gap-4">
-                                    {[tCourses("beginner"), tCourses("intermediate"), tCourses("advanced")].map((level, idx) => {
-                                        const colors = ["bg-[#3B82F6]", "bg-[#F97316]", "bg-[#22C55E]"];
-                                        return (
-                                            <div key={level} className="bg-[#1e293b] rounded-xl border border-[#334155] p-5">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className={`w-3 h-3 rounded-full ${colors[idx]}`} />
-                                                        <span className="font-medium text-sm text-white">{level}</span>
-                                                    </div>
-                                                    <span className="text-xs text-[#94a3b8]">0%</span>
-                                                </div>
-                                                <ProgressBar completed={0} total={1} />
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                <ChecklistStatus 
+                                    checklistStats={checklistStats} 
+                                    levelNames={levelNames} 
+                                    categories={categories} 
+                                    locale={locale} 
+                                />
                             </section>
                         </div>
                     </>

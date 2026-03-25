@@ -73,7 +73,7 @@ export async function getCategoriesBySeason(
         .from("categories")
         .select("*")
         .eq("season_id", seasonId)
-        .order("order", { ascending: true });
+        .order("sort_order", { ascending: true });
     if (error) throw error;
     return data ?? [];
 }
@@ -103,7 +103,7 @@ export async function getLevelsByCategory(
         .from("levels")
         .select("*")
         .eq("category_id", categoryId)
-        .order("order", { ascending: true });
+        .order("sort_order", { ascending: true });
     if (error) throw error;
     return data ?? [];
 }
@@ -141,7 +141,7 @@ export async function getCoursesByLevel(
         .from("courses")
         .select("*")
         .eq("level_id", levelId)
-        .order("order", { ascending: true });
+        .order("sort_order", { ascending: true });
     if (error) throw error;
     return data ?? [];
 }
@@ -156,7 +156,7 @@ export async function getLessonsByCourse(
         .from("lessons")
         .select("*")
         .eq("course_id", courseId)
-        .order("order", { ascending: true });
+        .order("sort_order", { ascending: true });
     if (error) throw error;
     return data ?? [];
 }
@@ -186,6 +186,28 @@ export async function getLessonCountByLevel(
     return count ?? 0;
 }
 
+export async function getLessonTitlesByIds(
+    lessonIds: string[]
+): Promise<Record<string, { title: string; title_kk: string; title_en: string }>> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("lessons")
+        .select("id, title")
+        .in("id", lessonIds);
+    if (error || !data) return {};
+
+    const result: Record<string, { title: string; title_kk: string; title_en: string }> = {};
+    data.forEach((l) => {
+        // @ts-ignore - these columns might be missing in DB but we provide fallbacks
+        result[l.id] = { 
+            title: l.title, 
+            title_kk: (l as any).title_kk || l.title, 
+            title_en: (l as any).title_en || l.title 
+        };
+    });
+    return result;
+}
+
 // ─── Checklist Items ─────────────────────────────────────
 
 export async function getChecklistItems(
@@ -196,7 +218,7 @@ export async function getChecklistItems(
         .from("checklist_items")
         .select("*")
         .eq("level_id", levelId)
-        .order("order", { ascending: true });
+        .order("sort_order", { ascending: true });
     if (error) throw error;
     return data ?? [];
 }
@@ -284,6 +306,14 @@ export async function markLessonComplete(
         lesson_id: lessonId,
         completed_at: new Date().toISOString(),
     });
+}
+
+export async function unmarkLessonComplete(
+    userId: string,
+    lessonId: string
+): Promise<void> {
+    const supabase = await createClient();
+    await supabase.from("progress").delete().match({ user_id: userId, lesson_id: lessonId });
 }
 
 // ─── Checklist Progress ──────────────────────────────────

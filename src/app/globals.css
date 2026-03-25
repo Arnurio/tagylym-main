@@ -3,6 +3,14 @@
 @import "tailwindcss";
 
 @theme {
+  --color-background: #020617;
+  --color-foreground: #F8FAFC;
+  --color-surface: #0F172A;
+  --color-surface-hover: #1E293B;
+  --color-border: #1E293B;
+  --color-primary: #8B5CF6;
+  --color-primary-hover: #7C3AED;
+  --color-accent: #0EA5E9;
   --color-deep-blue: #0C2D48;
   --color-teal: #0D9488;
   --color-orange: #F97316;
@@ -23,8 +31,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #F5F5F5;
-  color: #1A1A1A;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   margin: 0;
   line-height: 1.6;
 }
@@ -139,26 +147,26 @@ body {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  color: #1A1A1A;
+  color: var(--color-foreground);
 }
 
 .prose-custom h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 1.5rem 0 0.75rem;
-  color: #1A1A1A;
+  color: var(--color-foreground);
 }
 
 .prose-custom h3 {
   font-size: 1.25rem;
   font-weight: 600;
   margin: 1.25rem 0 0.5rem;
-  color: #1A1A1A;
+  color: var(--color-foreground);
 }
 
 .prose-custom p {
   margin-bottom: 1rem;
-  color: #374151;
+  color: #CBD5E1; /* slate-300 */
 }
 
 .prose-custom ul {
@@ -175,7 +183,7 @@ body {
 
 .prose-custom li {
   margin-bottom: 0.5rem;
-  color: #374151;
+  color: #CBD5E1;
 }
 
 .prose-custom code {
@@ -202,8 +210,32 @@ body {
 }
 
 .prose-custom blockquote {
-  border-left: 3px solid #2563EB;
+  border-left: 3px solid var(--color-primary);
   padding-left: 1rem;
   margin: 1rem 0;
-  color: #6B7280;
+  color: #94A3B8; /* slate-400 */
+}
+
+/* ─── Premium UI Utilities ────────────────────────────── */
+.glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+}
+
+.gradient-brand {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+}
+
+.animated-gradient {
+  background: linear-gradient(-45deg, #8B5CF6, #0EA5E9, #8B5CF6, #06B6D4);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

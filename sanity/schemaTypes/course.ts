@@ -6,10 +6,20 @@ const courseSchema = {
     type: 'document',
     fields: [
         {
-            name: 'title',
-            title: 'Название',
+            name: 'title_kk',
+            title: 'Название (KK)',
             type: 'string',
             validation: (Rule: Rule) => Rule.required(),
+        },
+        {
+            name: 'title_ru',
+            title: 'Название (RU)',
+            type: 'string',
+        },
+        {
+            name: 'title_en',
+            title: 'Название (EN)',
+            type: 'string',
         },
         {
             name: 'slug',
@@ -19,8 +29,18 @@ const courseSchema = {
             validation: (Rule: Rule) => Rule.required(),
         },
         {
-            name: 'description',
-            title: 'Описание',
+            name: 'description_kk',
+            title: 'Описание (KK)',
+            type: 'text',
+        },
+        {
+            name: 'description_ru',
+            title: 'Описание (RU)',
+            type: 'text',
+        },
+        {
+            name: 'description_en',
+            title: 'Описание (EN)',
             type: 'text',
         },
         {
@@ -45,6 +65,26 @@ const courseSchema = {
             type: 'number',
         },
     ],
-}
+    preview: {
+        select: {
+            title_kk: 'title_kk',
+            title_ru: 'title_ru',
+            title_base: 'title',
+        },
+        prepare(selection: any) {
+            const { title_kk, title_ru, title_base } = selection;
+            return {
+                title: title_kk || title_ru || title_base || 'Untitled Course',
+            };
+        },
+    },
+    orderings: [
+        {
+            title: 'По порядку (возрастание)',
+            name: 'orderAsc',
+            by: [{ field: 'order', direction: 'asc' }],
+        },
+    ],
+};
 
 export default courseSchema;

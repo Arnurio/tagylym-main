@@ -48,7 +48,7 @@ function CategoryPageContent({
     category: string;
     season: string;
     cat: { id: string; name: string; slug: string; icon: string } | null;
-    levels: { id: string; name: string; color: string; order: number; lessonCount: number; checklistCount: number }[];
+    levels: { id: string; name: string; color: string; sort_order: number; lessonCount: number; checklistCount: number }[];
 }) {
     const tCommon = useTranslations("common");
     const tCourses = useTranslations("courses");
