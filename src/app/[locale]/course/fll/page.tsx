@@ -391,7 +391,7 @@ export default function CoursePlayerPage() {
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
-                        Толық экран
+                        {t("fullscreen")}
                       </a>
                     </div>
                     <iframe
@@ -412,7 +412,7 @@ export default function CoursePlayerPage() {
                     <div key={idx} className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
                       <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/80 border-b border-slate-700">
                         <span className="text-xs font-medium text-slate-400">
-                          {hasMultiple ? `Бейне ${idx + 1}` : 'Бейне сабақ / Видеоурок'}
+                          {hasMultiple ? t("video_number", { number: idx + 1 }) : t("video_lesson")}
                         </span>
                         <a
                           href={url}

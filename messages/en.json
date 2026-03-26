@@ -105,7 +105,9 @@
     "rubric_exceeds": "Exceeds",
     "no_content": "This lesson's content is not ready yet.",
     "back_to_courses": "Back to Courses",
-    "level": "Level"
+    "level": "Level",
+    "presentation": "Presentation",
+    "open_link": "Open"
   },
   "checklist": {
     "title": "Checklist",
@@ -206,7 +208,10 @@
     "quiz_low": "Review the lesson material.",
     "quiz_mid": "Not bad! Review some topics.",
     "quiz_high": "Excellent! You mastered this lesson.",
-    "quiz_retry": "Try again"
+    "quiz_retry": "Try again",
+    "video_lesson": "Video Lesson",
+    "video_number": "Video {number}",
+    "fullscreen": "Full Screen"
   },
   "quiz": {
     "page_title": "Quiz Bank",
@@ -224,7 +229,27 @@
       "core-values": "Core Values",
       "coding": "Coding",
       "robot-game": "Robot Game"
-    }
+    },
+    "cat_title": "Adaptive Quiz",
+    "cat_subtitle": "Questions get harder or easier based on your answers",
+    "cat_start": "Start",
+    "cat_all_categories": "All tracks",
+    "cat_question_n": "Question {n} / {total}",
+    "cat_correct": "Correct!",
+    "cat_wrong": "Wrong",
+    "cat_next": "Next",
+    "cat_finish": "See Results",
+    "cat_results_title": "Results",
+    "cat_score": "{correct} / {total} correct answers",
+    "cat_level_up": "Level up!",
+    "cat_level_down": "Level down",
+    "cat_current_level": "Level",
+    "cat_restart": "Restart",
+    "cat_back": "Quiz Bank",
+    "cat_no_questions": "Not enough questions for this track",
+    "cat_rule_correct": "2 correct → level up",
+    "cat_rule_wrong": "2 wrong → level down",
+    "cat_rule_questions": "{n} questions"
   },
     "resources": {
         "page_title": "Resources",
@@ -313,7 +338,13 @@
     "description": "Dive into advanced robotics. Learn Java, control systems, and engineering design.",
     "start_learning": "Start Learning",
     "join_waitlist": "Join Waitlist",
-    "waitlist_subtitle": "Enter your email to get notified when the DECODE curriculum launches."
+    "waitlist_subtitle": "Enter your email to get notified when the DECODE curriculum launches.",
+    "feature_java_title": "Advanced Java",
+    "feature_java_desc": "Master complex control loops, PID controllers, and RoadRunner pathing.",
+    "feature_engineering_title": "Engineering",
+    "feature_engineering_desc": "Learn professional robot modeling using Onshape and specialized parts kits.",
+    "feature_competition_title": "Competition",
+    "feature_competition_desc": "Optimize your autonomous and tele-op strategies for the DECODE™ season."
   },
   "fgc": {
     "competition": "FIRST Global Challenge",
@@ -349,7 +380,13 @@
     "description": "The national team prepares for the world challenge. Unique experience and international collaboration.",
     "join_waitlist": "Join Waitlist",
     "back_to_home": "Back to Home",
-    "waitlist_subtitle": "Enter your email to get notified when the national team selection starts."
+    "waitlist_subtitle": "Enter your email to get notified when the national team selection starts.",
+    "feature_team_title": "National Team",
+    "feature_team_desc": "We prepare the best of the best to represent the country on the world stage.",
+    "feature_impact_title": "Global Impact",
+    "feature_impact_desc": "Solve real-world problems through the lens of robotics and innovation.",
+    "feature_mentoring_title": "Elite Mentoring",
+    "feature_mentoring_desc": "Direct access to mentors with experience at international finals."
   },
   "errors": {
     "not_found": "Page Not Found",
@@ -432,7 +469,11 @@
     "not_found": "Presentation not found",
     "not_found_desc": "The presentation you are looking for does not exist or has been removed.",
     "back_home": "Back to Home",
-    "open_drive": "Open in Google Drive"
+    "open_drive": "Open in Google Drive",
+    "title": "Presentations",
+    "subtitle": "Slides and materials for all tracks",
+    "view": "Open",
+    "lessons_count": "lesson"
   },
   "meta": {
     "home_title": "Tagylym — Robotics Education Platform",

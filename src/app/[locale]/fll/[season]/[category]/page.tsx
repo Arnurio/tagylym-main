@@ -8,11 +8,7 @@ import {
 } from "@/lib/queries";
 import type { LevelName } from "@/types";
 
-const levelSlugMap: Record<string, LevelName> = {
-    "Начинающий": "beginner",
-    "Средний": "intermediate",
-    "Продвинутый": "advanced",
-};
+// Level names are stored as English slugs in DB
 
 export default async function CategoryPage({
     params,
@@ -82,7 +78,7 @@ function CategoryPageContent({
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
                     {levels.map((level) => {
-                        const slug = levelSlugMap[level.name] || "beginner";
+                        const slug = (level.name as LevelName) || "beginner";
                         const displayNames: Record<string, string> = {
                             "beginner": tCourses("beginner"),
                             "intermediate": tCourses("intermediate"),

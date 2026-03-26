@@ -130,7 +130,7 @@ export default function LevelPageContent({
                         </Link>
                         <div>
                             <h1 className="text-2xl font-bold text-[#1A1A1A]">
-                                {categoryData?.name || "Трек"}
+                                {categoryData?.name || tQuiz("filter_track")}
                             </h1>
                             <p className="text-sm text-[#6B7280] mt-1">
                                 {completedCount} / {checklist.length} {tChecklist("progress")}

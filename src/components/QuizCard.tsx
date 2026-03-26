@@ -5,9 +5,25 @@ import { useTranslations } from "next-intl";
 import type { QuizCardProps } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
 
+const categoryKeys: Record<string, string> = {
+    "robot-design": "categories.robot-design",
+    "innovation": "categories.innovation",
+    "coding": "categories.coding",
+    "robot-game": "categories.robot-game",
+    "core-values": "categories.core-values",
+};
+
+const levelKeys: Record<string, string> = {
+    "beginner": "beginner",
+    "intermediate": "intermediate",
+    "advanced": "advanced",
+};
+
 export default function QuizCard({ quiz }: QuizCardProps) {
     const tLesson = useTranslations("lesson");
     const tCommon = useTranslations("common");
+    const tQuiz = useTranslations("quiz");
+    const tCourses = useTranslations("courses");
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false);
@@ -30,10 +46,10 @@ export default function QuizCard({ quiz }: QuizCardProps) {
             {/* Track & Level Header */}
             <div className="flex items-center gap-2 mb-2">
                 <span className="px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20 text-[10px] font-bold text-primary uppercase tracking-widest">
-                    {quiz.category}
+                    {categoryKeys[quiz.category] ? tQuiz(categoryKeys[quiz.category] as Parameters<typeof tQuiz>[0]) : quiz.category}
                 </span>
                 <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    {quiz.level}
+                    {levelKeys[quiz.level] ? tCourses(levelKeys[quiz.level] as Parameters<typeof tCourses>[0]) : quiz.level}
                 </span>
             </div>
 

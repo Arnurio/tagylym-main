@@ -51,7 +51,7 @@ export default function FTCPage() {
                         transition={{ delay: 0.2 }}
                         className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-12"
                     >
-                        {t("description") || "Погрузитесь в мир продвинутой робототехники. Изучайте Java, системы управления и инженерное проектирование."}
+                        {t("description")}
                     </motion.p>
 
                     <motion.div
@@ -65,13 +65,13 @@ export default function FTCPage() {
                             href="/courses"
                             className="px-8 py-4 rounded-xl bg-primary text-white font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.05] transition-all"
                         >
-                            {t("start_learning") || "Start Learning"}
+                            {t("start_learning")}
                         </Link>
                         <button 
                             onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                             className="px-8 py-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md text-white font-bold text-lg hover:bg-white/10 transition-all"
                         >
-                            {t("join_waitlist") || "Join Waitlist"}
+                            {t("join_waitlist")}
                         </button>
                     </motion.div>
                 </div>
@@ -81,9 +81,9 @@ export default function FTCPage() {
             <section className="py-24 px-6 relative z-10">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
-                        { title: "Advanced Java", desc: "Master complex control loops, PID controllers, and RoadRunner pathing.", icon: "💻" },
-                        { title: "Engineering", desc: "Learn professional robot modeling using Onshape and specialized parts kits.", icon: "🔧" },
-                        { title: "Competition", desc: "Optimize your autonomous and tele-op strategies for the DECODE™ season.", icon: "🎯" }
+                        { titleKey: "feature_java_title" as const, descKey: "feature_java_desc" as const, icon: "💻" },
+                        { titleKey: "feature_engineering_title" as const, descKey: "feature_engineering_desc" as const, icon: "🔧" },
+                        { titleKey: "feature_competition_title" as const, descKey: "feature_competition_desc" as const, icon: "🎯" }
                     ].map((feature, idx) => (
                         <motion.div
                             key={idx}
@@ -93,8 +93,8 @@ export default function FTCPage() {
                             className="glass-card p-10 border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-2 group"
                         >
                             <div className="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">{feature.icon}</div>
-                            <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                            <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                            <h3 className="text-2xl font-bold mb-4">{t(feature.titleKey)}</h3>
+                            <p className="text-slate-400 leading-relaxed">{t(feature.descKey)}</p>
                         </motion.div>
                     ))}
                 </div>
@@ -105,8 +105,8 @@ export default function FTCPage() {
                 <div className="max-w-4xl mx-auto relative">
                      <div className="absolute inset-0 bg-primary/5 rounded-[3rem] blur-3xl -z-10" />
                      <div className="glass-card p-12 md:p-20 text-center border-white/10">
-                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title") || "Be the first to know"}</h2>
-                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle") || "Enter your email to get notified when the DECODE curriculum drops and new modules are released."}</p>
+                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title")}</h2>
+                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle")}</p>
                         <div className="max-w-md mx-auto">
                             <WaitlistForm track="ftc" />
                         </div>
