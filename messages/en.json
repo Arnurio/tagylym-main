@@ -169,6 +169,7 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced",
+    "general": "General",
     "beginner_desc": "Start with basics",
     "intermediate_desc": "Deepen knowledge",
     "advanced_desc": "Reach mastery"
