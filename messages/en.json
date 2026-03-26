@@ -169,6 +169,7 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced",
+    "general": "General",
     "beginner_desc": "Start with basics",
     "intermediate_desc": "Deepen knowledge",
     "advanced_desc": "Reach mastery"
@@ -227,6 +228,7 @@
   },
     "resources": {
         "page_title": "Resources",
+        "subtitle": "Useful materials and resources",
         "roi_calculator_title": "ROI Calculator",
         "roi_description": "Plan your strategy by prioritizing missions by ROI",
         "mission_name": "Mission Name",
@@ -307,7 +309,11 @@
     "waitlist_title": "Notify me at launch",
     "waitlist_placeholder": "Your email...",
     "waitlist_button": "Notify me",
-    "waitlist_success": "Thank you! We\u2019ll notify you at launch."
+    "waitlist_success": "Thank you! We\u2019ll notify you at launch.",
+    "description": "Dive into advanced robotics. Learn Java, control systems, and engineering design.",
+    "start_learning": "Start Learning",
+    "join_waitlist": "Join Waitlist",
+    "waitlist_subtitle": "Enter your email to get notified when the DECODE curriculum launches."
   },
   "fgc": {
     "competition": "FIRST Global Challenge",
@@ -367,6 +373,7 @@
     "category": "category",
     "competition": "competition",
     "try_again": "Try again",
+    "try_other_filters": "Try other filters",
     "hide": "Hide",
     "loading": "Loading...",
     "coming_soon": "Coming Soon"
@@ -417,7 +424,11 @@
     "copyright": "© 2025 Tagylym. All rights reserved."
   },
   "presentations": {
-    "back": "Back to Presentations"
+    "back": "Back to Presentations",
+    "not_found": "Presentation not found",
+    "not_found_desc": "The presentation you are looking for does not exist or has been removed.",
+    "back_home": "Back to Home",
+    "open_drive": "Open in Google Drive"
   },
   "meta": {
     "home_title": "Tagylym — Robotics Education Platform",

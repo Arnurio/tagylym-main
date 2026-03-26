@@ -169,6 +169,7 @@
     "beginner": "Бастауыш",
     "intermediate": "Орташа",
     "advanced": "Жетілдірілген",
+    "general": "Жалпы",
     "beginner_desc": "Негіздерден бастау",
     "intermediate_desc": "Білімді тереңдету",
     "advanced_desc": "Шеберлікке жету"
@@ -227,6 +228,7 @@
   },
     "resources": {
         "page_title": "Ресурстар",
+        "subtitle": "Пайдалы материалдар мен ресурстар",
         "roi_calculator_title": "ROI Калькуляторы",
         "roi_description": "Миссияларды ROI бойынша приоритет беріп, стратегияңызды жоспарлаңыз",
         "mission_name": "Миссия атауы",
@@ -307,7 +309,11 @@
     "waitlist_title": "Іске қосылғанда маған хабарлаңыз",
     "waitlist_placeholder": "Сіздің email...",
     "waitlist_button": "Маған хабарлаңыз",
-    "waitlist_success": "Рахмет! Біз сізге іске қосылғанда хабарлаймыз."
+    "waitlist_success": "Рахмет! Біз сізге іске қосылғанда хабарлаймыз.",
+    "description": "Жетілдірілген робототехника әлеміне ен. Java, басқару жүйелері, инженерлік жобалауды үйрен.",
+    "start_learning": "Оқуды бастау",
+    "join_waitlist": "Тізімге жазылу",
+    "waitlist_subtitle": "DECODE бағдарламасы іске қосылғанда хабар алу үшін email-ді енгіз."
   },
   "fgc": {
     "competition": "FIRST Global Challenge",
@@ -367,6 +373,7 @@
     "category": "категория",
     "competition": "жарыс",
     "try_again": "Қайтадан байқап көру",
+    "try_other_filters": "Басқа сүзгілерді байқа",
     "hide": "Жасыру",
     "loading": "Жүктелуде...",
     "coming_soon": "Жақында"
@@ -417,7 +424,11 @@
     "copyright": "© 2025 Tagylym. Барлық құқықтар қорғалған."
   },
   "presentations": {
-    "back": "Презентацияларға қайту"
+    "back": "Презентацияларға қайту",
+    "not_found": "Презентация табылмады",
+    "not_found_desc": "Сіз іздеген презентация жоқ немесе жойылған.",
+    "back_home": "Басты бетке қайту",
+    "open_drive": "Google Drive-да ашу"
   },
   "meta": {
     "home_title": "Tagylym — Робототехника білім платформасы",
