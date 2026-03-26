@@ -73,9 +73,9 @@
     "continue": "Продолжить",
     "begin_learning": "Начать обучение",
     "levels": "3 Уровня",
-    "beginner": "Beginner",
-    "intermediate": "Intermediate",
-    "advanced": "Advanced",
+    "beginner": "Начальный",
+    "intermediate": "Средний",
+    "advanced": "Продвинутый",
     "course_of": "Курс",
     "of": "из",
     "selected": "Выбрано",
@@ -166,9 +166,9 @@
     "successMsg": "Регистрация прошла успешно!"
   },
   "levels": {
-    "beginner": "Beginner",
-    "intermediate": "Intermediate",
-    "advanced": "Advanced",
+    "beginner": "Начальный",
+    "intermediate": "Средний",
+    "advanced": "Продвинутый",
     "beginner_desc": "Начать с основ",
     "intermediate_desc": "Углубить знания",
     "advanced_desc": "Достичь мастерства"
@@ -227,6 +227,7 @@
   },
     "resources": {
         "page_title": "Ресурсы",
+        "subtitle": "Полезные материалы и ресурсы",
         "roi_calculator_title": "Калькулятор ROI",
         "roi_description": "Планируйте стратегию, приоритизируя миссии по ROI",
         "mission_name": "Название миссии",
@@ -307,7 +308,11 @@
     "waitlist_title": "Уведомить меня о запуске",
     "waitlist_placeholder": "Ваш email...",
     "waitlist_button": "Уведомить меня",
-    "waitlist_success": "Спасибо! Мы сообщим вам о запуске."
+    "waitlist_success": "Спасибо! Мы сообщим вам о запуске.",
+    "description": "Погрузитесь в мир продвинутой робототехники. Java, системы управления, инженерное проектирование.",
+    "start_learning": "Начать обучение",
+    "join_waitlist": "Записаться в лист ожидания",
+    "waitlist_subtitle": "Введи email, чтобы получить уведомление о запуске DECODE."
   },
   "fgc": {
     "competition": "FIRST Global Challenge",
@@ -367,6 +372,7 @@
     "category": "категория",
     "competition": "соревнование",
     "try_again": "Попробовать снова",
+    "try_other_filters": "Попробуй другие фильтры",
     "hide": "Скрыть",
     "loading": "Загрузка...",
     "coming_soon": "Скоро"
@@ -417,7 +423,11 @@
     "copyright": "© 2025 Tagylym. Все права защищены."
   },
   "presentations": {
-    "back": "К презентациям"
+    "back": "К презентациям",
+    "not_found": "Презентация не найдена",
+    "not_found_desc": "Презентация, которую вы ищете, не существует или была удалена.",
+    "back_home": "На главную",
+    "open_drive": "Открыть в Google Drive"
   },
   "meta": {
     "home_title": "Tagylym — Образовательная платформа по робототехнике",
