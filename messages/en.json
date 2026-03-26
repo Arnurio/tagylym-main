@@ -345,7 +345,11 @@
     "waitlist_title": "Notify me at launch",
     "waitlist_placeholder": "Your email...",
     "waitlist_button": "Notify me",
-    "waitlist_success": "Thank you! We\u2019ll notify you at launch."
+    "waitlist_success": "Thank you! We\u2019ll notify you at launch.",
+    "description": "The national team prepares for the world challenge. Unique experience and international collaboration.",
+    "join_waitlist": "Join Waitlist",
+    "back_to_home": "Back to Home",
+    "waitlist_subtitle": "Enter your email to get notified when the national team selection starts."
   },
   "errors": {
     "not_found": "Page Not Found",
