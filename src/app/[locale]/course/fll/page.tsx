@@ -30,7 +30,7 @@ function getEmbedUrl(url: string): string {
   const driveFile = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (driveFile) return `https://drive.google.com/file/d/${driveFile[1]}/preview`;
   const slides = url.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
-  if (slides) return `https://docs.google.com/presentation/d/${slides[1]}/preview`;
+  if (slides) return `https://drive.google.com/file/d/${slides[1]}/preview`;
   if (url.toLowerCase().endsWith('.pptx') || url.includes('sharepoint') || url.includes('1drv.ms')) {
     return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
   }
