@@ -139,11 +139,11 @@ function LessonContent({ id, locale }: { id: string; locale: string }) {
                 </Link>
                 <h1 className="text-3xl font-bold text-white mb-6">{title}</h1>
 
-                {videoUrl && (
-                    <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-8 shadow-lg">
-                        <VideoPlayer videoUrl={videoUrl} lessonId={id} onComplete={handleVideoEnd} />
+                {videoUrl && videoUrl.split(',').map((rawUrl, idx) => (
+                    <div key={idx} className="aspect-video bg-black rounded-2xl overflow-hidden mb-8 shadow-lg">
+                        <VideoPlayer videoUrl={rawUrl.trim()} lessonId={id} onComplete={idx === 0 ? handleVideoEnd : undefined} />
                     </div>
-                )}
+                ))}
 
                 {presentationUrl && (
                     <div className="mb-8 border border-white/10 rounded-2xl overflow-hidden shadow-lg">
@@ -162,11 +162,14 @@ function LessonContent({ id, locale }: { id: string; locale: string }) {
                             </a>
                         </div>
                         <iframe
-                            src={
-                                presentationUrl.toLowerCase().endsWith(".pdf")
-                                    ? presentationUrl
-                                    : `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(presentationUrl)}`
-                            }
+                            src={(() => {
+                                const driveFile = presentationUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+                                if (driveFile) return `https://drive.google.com/file/d/${driveFile[1]}/preview`;
+                                const slides = presentationUrl.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
+                                if (slides) return `https://docs.google.com/presentation/d/${slides[1]}/preview`;
+                                if (presentationUrl.toLowerCase().endsWith(".pdf")) return presentationUrl;
+                                return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(presentationUrl)}`;
+                            })()}
                             className="w-full h-[500px] md:h-[600px]"
                             allowFullScreen
                         />

@@ -40,13 +40,13 @@ async function run() {
   const validRecords = records.filter(r => r.Competition && r.Competition.trim() !== '');
   console.log(`✅ Found ${validRecords.length} lessons in curriculum.csv\n`);
 
-  // Level name mapping: CSV value → DB name
+  // Level name mapping: CSV value → DB name (English slugs after fix_level_names.sql migration)
   const levelNameMap = {
-    'Beginner':     'Начинающий',
-    'Intermediate': 'Средний',
-    'Advanced':     'Продвинутый',
-    'All Levels':   'Общий',
-    'General':      'Общий',
+    'Beginner':     'beginner',
+    'Intermediate': 'intermediate',
+    'Advanced':     'advanced',
+    'All Levels':   'general',
+    'General':      'general',
   };
 
   // Level slug mapping for URL routes
@@ -165,8 +165,8 @@ async function run() {
       .maybeSingle();
 
     if (!level) {
-      const levelColors = { 'Начинающий': '#3B82F6', 'Средний': '#F97316', 'Продвинутый': '#22C55E', 'Общий': '#8B5CF6' };
-      const levelOrders = { 'Начинающий': 1, 'Средний': 2, 'Продвинутый': 3, 'Общий': 1 };
+      const levelColors = { 'beginner': '#3B82F6', 'intermediate': '#F97316', 'advanced': '#22C55E', 'general': '#8B5CF6' };
+      const levelOrders = { 'beginner': 1, 'intermediate': 2, 'advanced': 3, 'general': 1 };
 
       const { data: nl, error: nlErr } = await supabase
         .from('levels')
@@ -224,9 +224,9 @@ async function run() {
       .eq('title', lessonTitleRu)
       .maybeSingle();
 
-    // Clean video URLs (sometimes has two URLs separated by spaces)
-    const cleanVideoRu = (videoUrlRu || '').split(/\s+/).filter(u => u.startsWith('http'))[0] || null;
-    const cleanVideoKk = (videoUrlKk || '').split(/\s+/).filter(u => u.startsWith('http'))[0] || null;
+    // Clean video URLs — support multiple URLs separated by spaces or commas (e.g. CV-02)
+    const cleanVideoRu = (videoUrlRu || '').split(/[\s,]+/).filter(u => u.startsWith('http')).join(',') || null;
+    const cleanVideoKk = (videoUrlKk || '').split(/[\s,]+/).filter(u => u.startsWith('http')).join(',') || null;
 
     const sbLessonData = {
       course_id: course.id,

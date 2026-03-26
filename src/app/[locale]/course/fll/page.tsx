@@ -30,7 +30,7 @@ function getEmbedUrl(url: string): string {
   const driveFile = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (driveFile) return `https://drive.google.com/file/d/${driveFile[1]}/preview`;
   const slides = url.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
-  if (slides) return `https://docs.google.com/presentation/d/${slides[1]}/embed`;
+  if (slides) return `https://docs.google.com/presentation/d/${slides[1]}/preview`;
   if (url.toLowerCase().endsWith('.pptx') || url.includes('sharepoint') || url.includes('1drv.ms')) {
     return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
   }
@@ -404,34 +404,40 @@ export default function CoursePlayerPage() {
                   </div>
                 )}
 
-                {/* Video player embed */}
-                {activeLesson.video_url && (
-                  <div className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
-                    <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/80 border-b border-slate-700">
-                      <span className="text-xs font-medium text-slate-400">Бейне сабақ / Видеоурок</span>
-                      <a
-                        href={activeLesson.video_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-[#8B5CF6] hover:opacity-80 flex items-center gap-1.5 transition-opacity"
-                      >
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                        YouTube
-                      </a>
+                {/* Video player embed — supports multiple comma-separated URLs */}
+                {activeLesson.video_url && activeLesson.video_url.split(',').map((rawUrl, idx) => {
+                  const url = rawUrl.trim();
+                  const hasMultiple = activeLesson.video_url!.includes(',');
+                  return (
+                    <div key={idx} className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+                      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/80 border-b border-slate-700">
+                        <span className="text-xs font-medium text-slate-400">
+                          {hasMultiple ? `Бейне ${idx + 1}` : 'Бейне сабақ / Видеоурок'}
+                        </span>
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-[#8B5CF6] hover:opacity-80 flex items-center gap-1.5 transition-opacity"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          YouTube
+                        </a>
+                      </div>
+                      <VideoPlayer
+                        videoUrl={url}
+                        lessonId={activeLesson.id}
+                        onComplete={() => {
+                          if (idx === 0 && !completedLessons.includes(activeLesson.id)) {
+                            toggleComplete(activeLesson.id);
+                          }
+                        }}
+                      />
                     </div>
-                    <VideoPlayer
-                      videoUrl={activeLesson.video_url}
-                      lessonId={activeLesson.id}
-                      onComplete={() => {
-                        if (!completedLessons.includes(activeLesson.id)) {
-                          toggleComplete(activeLesson.id);
-                        }
-                      }}
-                    />
-                  </div>
-                )}
+                  );
+                })}
 
                 {/* No content fallback */}
                 {!presentationUrl && !activeLesson.video_url && (
