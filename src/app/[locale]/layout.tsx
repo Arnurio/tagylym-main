@@ -35,7 +35,7 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} className="dark">
-            <body className="min-h-screen bg-surface text-slate-200 antialiased">
+            <body className="min-h-screen bg-background text-slate-100 antialiased">
                 <NextIntlClientProvider messages={messages}>
                     <Nav />
                     <main className="pt-16">{children}</main>

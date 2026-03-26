@@ -53,14 +53,14 @@ export default function CoursesPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-slate-950 px-6">
+            <div className="min-h-screen flex items-center justify-center bg-background px-6">
                 <div className="w-10 h-10 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 pb-20">
+        <div className="min-h-screen bg-background pb-20">
             {/* Hero / Header */}
             <section className="pt-20 pb-16 px-6 relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-accent/5 blur-[120px] rounded-full -z-10" />

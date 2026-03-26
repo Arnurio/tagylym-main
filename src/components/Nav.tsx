@@ -71,7 +71,7 @@ export default function Nav() {
     const visibleLinks = NAV_LINKS.filter(link => !link.authRequired || user);
 
     return (
-        <nav className="sticky top-0 z-50 border-b" style={{ backgroundColor: '#0C2D48', borderColor: '#0C2D48' }}>
+        <nav className="sticky top-0 z-50 border-b border-white/5" style={{ backgroundColor: 'rgba(2,6,23,0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
             <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-between">
                 {/* LEFT: Logo + wordmark */}
                 <Link href={"/" as const} className="flex items-center gap-2 shrink-0">
@@ -150,8 +150,8 @@ export default function Nav() {
                     ) : (
                         <Link
                             href={"/auth/login" as const}
-                            className="hidden md:inline text-xs px-3 py-1 rounded text-white hover:brightness-90 transition-all"
-                            style={{ backgroundColor: '#0D9488' }}
+                            className="hidden md:inline text-xs px-3 py-1.5 rounded-lg text-white font-semibold transition-all btn-primary"
+                            style={{}}
                         >
                             {tNav("login")}
                         </Link>
@@ -176,7 +176,7 @@ export default function Nav() {
 
             {/* Mobile menu */}
             {isOpen && (
-                <div className="lg:hidden absolute top-full left-0 right-0 border-b p-4 shadow-lg space-y-1 z-50" style={{ backgroundColor: '#0C2D48', borderColor: '#0C2D48' }}>
+                <div className="lg:hidden absolute top-full left-0 right-0 border-b border-white/5 p-4 shadow-2xl space-y-1 z-50" style={{ backgroundColor: 'rgba(2,6,23,0.95)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
                     {/* Navigation links */}
                     {visibleLinks.map((link) => (
                         <Link

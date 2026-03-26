@@ -57,10 +57,10 @@ const FAQ_ITEMS = [
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-slate-700 bg-slate-800 rounded-xl overflow-hidden shadow-sm">
+    <div className="glass-card overflow-hidden border-white/5">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-700/50 transition-colors"
+        className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-white/3 transition-colors"
       >
         <span className="font-semibold text-sm text-white pr-4">{question}</span>
         <svg
@@ -73,8 +73,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         </svg>
       </button>
       {isOpen && (
-        <div className="px-6 pb-4">
-          <p className="text-sm text-slate-300 leading-relaxed">{answer}</p>
+        <div className="px-6 pb-5 border-t border-white/5 pt-4">
+          <p className="text-sm text-slate-400 leading-relaxed">{answer}</p>
         </div>
       )}
     </div>
@@ -88,8 +88,10 @@ export default function HomePage() {
         <div className="min-h-screen bg-background text-foreground font-sans overflow-hidden">
             {/* HERO SECTION */}
             <section className="relative w-full px-6 py-28 md:py-44 flex flex-col lg:flex-row items-center justify-center isolate">
-                <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(0,82,255,0.06),transparent_60%)]" />
-                <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom_left,rgba(77,124,255,0.06),transparent_60%)]" />
+                {/* Ambient glows */}
+                <div className="absolute top-0 right-0 w-[700px] h-[700px] -z-10 rounded-full" style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 65%)', filter: 'blur(40px)' }} />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] -z-10 rounded-full" style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 65%)', filter: 'blur(40px)' }} />
+                <div className="absolute inset-0 -z-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.045) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
                 
                 <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
                     {/* Hero Text */}
@@ -99,12 +101,12 @@ export default function HomePage() {
                         variants={stagger}
                         className="relative z-10 flex flex-col justify-center items-start lg:pr-10"
                     >
-                        <motion.h1 
+                        <motion.h1
                             variants={fadeInUp}
-                            className="text-5xl md:text-6xl lg:text-[5.25rem] font-calistoga leading-[1.05] tracking-[-0.02em] text-deepBlue mb-8 text-left"
+                            className="text-5xl md:text-6xl lg:text-[5.25rem] font-calistoga leading-[1.05] tracking-[-0.02em] mb-8 text-left"
                         >
                             <span className="relative inline-block">
-                                <span className="gradient-text">{t("hero_title")}</span>
+                                <span className="gradient-text-hero">{t("hero_title")}</span>
                                 <span className="gradient-underline"></span>
                             </span>
                         </motion.h1>
@@ -118,14 +120,28 @@ export default function HomePage() {
                         <motion.div variants={fadeInUp} className="mt-8">
                             <Link
                                 href={"/auth/login" as "/"}
-                                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold text-lg transition-all shadow-lg shadow-[#8B5CF6]/30 hover:shadow-xl hover:shadow-[#8B5CF6]/40 hover:scale-[1.02]"
-                                style={{ backgroundColor: '#8B5CF6' }}
+                                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold text-lg btn-primary"
+                                style={{}}
                             >
                                 {t("hero_cta")}
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
                             </Link>
+                        </motion.div>
+
+                        {/* Stats row */}
+                        <motion.div variants={fadeInUp} className="mt-10 flex items-center gap-6 flex-wrap">
+                            {[
+                                { value: "25+", label: t("stat_presentations") },
+                                { value: "63", label: t("stat_questions") },
+                                { value: "3", label: t("stat_languages") },
+                            ].map((stat, i) => (
+                                <div key={i} className="flex flex-col">
+                                    <span className="text-2xl font-black text-white">{stat.value}</span>
+                                    <span className="text-xs text-slate-400 uppercase tracking-wider">{stat.label}</span>
+                                </div>
+                            ))}
                         </motion.div>
                     </motion.div>
 
@@ -141,7 +157,7 @@ export default function HomePage() {
                             <motion.div 
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                                className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border border-dashed border-accent/20"
+                                className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border border-dashed border-primary/30"
                             />
                         </div>
 
@@ -166,7 +182,7 @@ export default function HomePage() {
             </section>
 
             {/* AUDIENCE SECTION */}
-            <section className="bg-[#0F172A] px-6 py-28 relative border-b border-slate-800">
+            <section className="bg-background px-6 py-28 relative border-b border-white/5">
                 <div className="max-w-6xl mx-auto">
                     <motion.div
                         initial="hidden"
@@ -191,10 +207,12 @@ export default function HomePage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.1 }}
                                 transition={{ duration: 0.5, delay: idx * 0.15 }}
-                                className="bg-slate-800 rounded-xl border border-slate-700 p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-shadow duration-300"
+                                className="glass-card p-6 flex flex-col items-center text-center hover:-translate-y-1 transition-all duration-300 overflow-hidden relative group"
                             >
+                                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${card.color}, transparent)` }} />
                                 <div
-                                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 bg-slate-700/50"
+                                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 border border-white/10"
+                                    style={{ backgroundColor: `${card.color}15` }}
                                 >
                                     {card.icon}
                                 </div>
@@ -221,7 +239,7 @@ export default function HomePage() {
             </section>
 
             {/* "О проекте Tagylym" Section */}
-            <section className="bg-white px-6 py-28 relative">
+            <section className="bg-surface px-6 py-28 relative">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 items-center">
                     <motion.div 
                         initial="hidden"
@@ -241,21 +259,21 @@ export default function HomePage() {
                             </span>
                         </motion.div>
 
-                        <motion.h2 
+                        <motion.h2
                             variants={fadeInUp}
-                            className="text-4xl md:text-5xl font-calistoga text-deepBlue mb-6 leading-tight"
+                            className="text-4xl md:text-5xl font-calistoga text-white mb-6 leading-tight"
                         >
                             {t("about_title")}
                         </motion.h2>
                         
-                        <motion.p variants={fadeInUp} className="text-lg text-slate-600 leading-relaxed mb-8">
+                        <motion.p variants={fadeInUp} className="text-lg text-slate-400 leading-relaxed mb-8">
                             {t("about_body")}
                         </motion.p>
 
                         {/* Callout Card */}
-                        <motion.div variants={fadeInUp} className="relative bg-slate-50 rounded-2xl p-6 border border-slate-200 shadow-md hover:shadow-xl transition-shadow duration-300">
-                            <div className="absolute top-0 right-8 -translate-y-[40%] text-[8rem] text-accent/[0.04] font-calistoga leading-none select-none">&quot;</div>
-                            <p className="italic text-lg text-slate-800 relative z-10 font-medium tracking-tight">
+                        <motion.div variants={fadeInUp} className="glass-card-bright p-6 hover:shadow-xl transition-shadow duration-300 relative">
+                            <div className="absolute top-0 right-8 -translate-y-[40%] text-[8rem] text-primary/10 font-calistoga leading-none select-none">&quot;</div>
+                            <p className="italic text-lg text-slate-200 relative z-10 font-medium tracking-tight">
                                 {t("about_quote")}
                             </p>
                         </motion.div>
@@ -279,12 +297,12 @@ export default function HomePage() {
             </section>
 
             {/* "Проблема" Section (Inverted Contrast) */}
-            <section className="text-white px-6 py-32 relative overflow-hidden" style={{ backgroundColor: '#0F172A' }}>
+            <section className="text-white px-6 py-32 relative overflow-hidden" style={{ backgroundColor: '#274D7A' }}>
                 {/* Dot grid texture */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-                
+                <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+
                 {/* Accent glow */}
-                <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[800px] h-[800px] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
+                <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[800px] h-[800px] bg-primary/15 rounded-full blur-[150px] pointer-events-none" />
 
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 md:gap-24 items-center relative z-10">
                     <motion.div 
@@ -417,7 +435,7 @@ export default function HomePage() {
             </section>
 
             {/* FAQ SECTION */}
-            <section className="bg-slate-900 px-6 py-28 relative">
+            <section className="bg-background px-6 py-28 relative">
                 <div className="max-w-3xl mx-auto">
                     <motion.div
                         initial="hidden"
