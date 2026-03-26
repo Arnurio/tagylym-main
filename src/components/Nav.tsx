@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 
 interface NavLink {
-    href: "/" | "/courses" | "/fll" | "/ftc" | "/fgc" | "/presentations/fll-innovation-project" | "/quiz" | "/resources" | "/dashboard" | "/course/fll";
+    href: "/" | "/courses" | "/fll" | "/ftc" | "/fgc" | "/presentations" | "/quiz" | "/resources" | "/dashboard" | "/course/fll";
     labelKey: "home" | "courses" | "fll" | "ftc" | "fgc" | "presentations" | "quiz" | "resources" | "dashboard";
     authRequired?: boolean;
 }
@@ -18,7 +18,7 @@ const NAV_LINKS: NavLink[] = [
     { href: "/course/fll", labelKey: "fll" },
     { href: "/ftc", labelKey: "ftc" },
     { href: "/fgc", labelKey: "fgc" },
-    { href: "/presentations/fll-innovation-project", labelKey: "presentations" },
+    { href: "/presentations", labelKey: "presentations" },
     { href: "/quiz", labelKey: "quiz" },
     { href: "/resources", labelKey: "resources" },
     { href: "/dashboard", labelKey: "dashboard", authRequired: true },

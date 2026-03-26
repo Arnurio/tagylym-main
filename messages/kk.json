@@ -105,7 +105,9 @@
     "rubric_exceeds": "Асып кетті",
     "no_content": "Бұл сабақтың мазмұны әлі дайын емес.",
     "back_to_courses": "Курстарға қайту",
-    "level": "Деңгей"
+    "level": "Деңгей",
+    "presentation": "Презентация",
+    "open_link": "Ашу"
   },
   "checklist": {
     "title": "Чеклист",
@@ -206,7 +208,10 @@
     "quiz_low": "Материалды қайта қарап шық.",
     "quiz_mid": "Жаман емес! Бірнеше тақырыпты нақтылаңыз.",
     "quiz_high": "Керемет! Материалды жақсы меңгердің.",
-    "quiz_retry": "Қайтадан өту"
+    "quiz_retry": "Қайтадан өту",
+    "video_lesson": "Бейне сабақ",
+    "video_number": "Бейне {number}",
+    "fullscreen": "Толық экран"
   },
   "quiz": {
     "page_title": "Квиз банкі",
@@ -224,7 +229,24 @@
       "core-values": "Негізгі Құндылықтар",
       "coding": "Бағдарламалау",
       "robot-game": "Робот Ойыны"
-    }
+    },
+    "cat_title": "Адаптивті Квиз",
+    "cat_subtitle": "Сұрақтар жауаптарыңызға қарай күрделіленеді немесе жеңілдейді",
+    "cat_start": "Бастау",
+    "cat_all_categories": "Барлық тректер",
+    "cat_question_n": "{n} / {total} сұрақ",
+    "cat_correct": "Дұрыс!",
+    "cat_wrong": "Қате",
+    "cat_next": "Келесі",
+    "cat_finish": "Нәтижені көру",
+    "cat_results_title": "Нәтиже",
+    "cat_score": "{correct} / {total} дұрыс жауап",
+    "cat_level_up": "Деңгей жоғарылады",
+    "cat_level_down": "Деңгей төмендеді",
+    "cat_current_level": "Деңгей",
+    "cat_restart": "Қайтадан бастау",
+    "cat_back": "Квиз банкіне оралу",
+    "cat_no_questions": "Бұл трек бойынша жеткілікті сұрақтар жоқ"
   },
     "resources": {
         "page_title": "Ресурстар",
@@ -313,7 +335,13 @@
     "description": "Жетілдірілген робототехника әлеміне ен. Java, басқару жүйелері, инженерлік жобалауды үйрен.",
     "start_learning": "Оқуды бастау",
     "join_waitlist": "Тізімге жазылу",
-    "waitlist_subtitle": "DECODE бағдарламасы іске қосылғанда хабар алу үшін email-ді енгіз."
+    "waitlist_subtitle": "DECODE бағдарламасы іске қосылғанда хабар алу үшін email-ді енгіз.",
+    "feature_java_title": "Java бағдарламалау",
+    "feature_java_desc": "Күрделі басқару циклдерін, PID реттегіштерін және RoadRunner маршрутын игеру.",
+    "feature_engineering_title": "Инженерия",
+    "feature_engineering_desc": "Onshape және арнайы бөлшектер жинағымен кәсіби робот модельдеуді үйрену.",
+    "feature_competition_title": "Жарыс",
+    "feature_competition_desc": "DECODE™ маусымына автономды және TeleOp стратегияларыңызды оңтайландыру."
   },
   "fgc": {
     "competition": "FIRST Global Challenge",
@@ -349,7 +377,13 @@
     "description": "Ұлттық құрама әлемдік сынаққа дайындалуда. Бірегей тәжірибе, халықаралық ынтымақтастық.",
     "join_waitlist": "Тізімге жазылу",
     "back_to_home": "Басты бетке қайту",
-    "waitlist_subtitle": "Ұлттық құрама іріктеуі басталғанда хабарлама алу үшін email-ді енгіз."
+    "waitlist_subtitle": "Ұлттық құрама іріктеуі басталғанда хабарлама алу үшін email-ді енгіз.",
+    "feature_team_title": "Ұлттық құрама",
+    "feature_team_desc": "Елді әлемдік аренада ұсыну үшін ең жақсыларды дайындаймыз.",
+    "feature_impact_title": "Жаһандық ықпал",
+    "feature_impact_desc": "Робототехника мен инновация арқылы нақты әлемдік мәселелерді шешіңіз.",
+    "feature_mentoring_title": "Элитті тәлімгерлік",
+    "feature_mentoring_desc": "Халықаралық финалдарда тәжірибесі бар тәлімгерлерге тікелей қол жеткізу."
   },
   "errors": {
     "not_found": "Бет табылмады",
@@ -432,7 +466,11 @@
     "not_found": "Презентация табылмады",
     "not_found_desc": "Сіз іздеген презентация жоқ немесе жойылған.",
     "back_home": "Басты бетке қайту",
-    "open_drive": "Google Drive-да ашу"
+    "open_drive": "Google Drive-да ашу",
+    "title": "Презентациялар",
+    "subtitle": "Барлық трек бойынша слайдтар мен материалдар",
+    "view": "Ашу",
+    "lessons_count": "сабақ"
   },
   "meta": {
     "home_title": "Tagylym — Робототехника білім платформасы",

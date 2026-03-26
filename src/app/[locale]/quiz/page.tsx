@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import QuizCard from "@/components/QuizCard";
 import { supabase } from "@/lib/supabase";
 import type { Quiz } from "@/types";
@@ -71,8 +72,30 @@ export default function QuizPage() {
                     </p>
                 </motion.div>
 
+                {/* CAT Quiz Banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="mb-8"
+                >
+                    <Link
+                        href={"/quiz/cat" as "/"}
+                        className="flex items-center justify-between gap-4 glass-card px-6 py-4 border border-[#8B5CF6]/20 hover:border-[#8B5CF6]/50 transition-all group"
+                    >
+                        <div className="flex items-center gap-3">
+                            <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-[#8B5CF6]/10 text-[#8B5CF6] border border-[#8B5CF6]/20 uppercase tracking-widest">CAT</span>
+                            <div>
+                                <p className="text-white font-semibold text-sm">{t("cat_title")}</p>
+                                <p className="text-slate-500 text-xs">{t("cat_subtitle")}</p>
+                            </div>
+                        </div>
+                        <span className="text-[#8B5CF6] text-sm font-bold group-hover:translate-x-1 transition-transform">→</span>
+                    </Link>
+                </motion.div>
+
                 {/* Filters */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="glass-card p-6 mb-12 flex flex-wrap gap-6 items-end border-white/5 shadow-2xl"
@@ -151,7 +174,7 @@ export default function QuizPage() {
                         >
                             <span className="text-6xl mb-6 block opacity-50">🔬</span>
                             <h3 className="text-xl font-bold text-white mb-2">{t("no_results")}</h3>
-                            <p className="text-slate-500">{tCommon("try_other_filters") || "Try adjusting your filters"}</p>
+                            <p className="text-slate-500">{tCommon("try_other_filters")}</p>
                         </motion.div>
                     )}
                 </AnimatePresence>
