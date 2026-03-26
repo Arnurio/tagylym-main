@@ -140,7 +140,7 @@ export default function ROICalculator() {
                                             type="text"
                                             value={row.missionName}
                                             onChange={(e) => updateRow(row.id, "missionName", e.target.value)}
-                                            placeholder="Mission M01..."
+                                            placeholder={t("mission_placeholder")}
                                             className="w-full bg-transparent text-slate-300 placeholder-surface-lighter focus:outline-none focus:text-white text-sm"
                                         />
                                     </td>

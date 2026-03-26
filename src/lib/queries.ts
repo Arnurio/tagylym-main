@@ -113,19 +113,11 @@ export async function getLevelByCategoryAndName(
     levelName: string
 ): Promise<Level | null> {
     const supabase = await createClient();
-    // levelName from URL: "beginner" → DB name: "Начинающий"
-    const nameMap: Record<string, string> = {
-        beginner: "Начинающий",
-        intermediate: "Средний",
-        advanced: "Продвинутый",
-    };
-    const dbName = nameMap[levelName.toLowerCase()] || levelName;
-
     const { data, error } = await supabase
         .from("levels")
         .select("*")
         .eq("category_id", categoryId)
-        .eq("name", dbName)
+        .eq("name", levelName.toLowerCase())
         .single();
     if (error) return null;
     return data;
@@ -375,11 +367,6 @@ export interface EnrichedCourse extends Course {
     levelColor: string;
 }
 
-const levelSlugMap: Record<string, string> = {
-    "Начинающий": "beginner",
-    "Средний": "intermediate",
-    "Продвинутый": "advanced",
-};
 
 export async function getAllCoursesForSeason(
     seasonId: string
@@ -397,7 +384,7 @@ export async function getAllCoursesForSeason(
                     categoryName: cat.name,
                     categorySlug: cat.slug,
                     levelName: level.name,
-                    levelSlug: levelSlugMap[level.name] || "beginner",
+                    levelSlug: level.name,
                     levelColor: level.color,
                 });
             }

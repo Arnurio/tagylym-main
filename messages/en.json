@@ -52,7 +52,16 @@
     "problem_quote": "Over 60% of Kazakhstan's students study in rural schools and small towns where access to sustainable STEM programs is limited.",
     "presentations_title": "Learning Paths",
     "view_track": "View Track",
-    "all_courses": "All Courses"
+    "all_courses": "All Courses",
+    "badge_about": "About",
+    "badge_highlight": "Highlight",
+    "badge_learning_paths": "Learning Paths",
+    "track_fll_title": "FLL Masterclass",
+    "track_fll_desc": "LEGO Education, Spike Prime and game strategy for young engineers.",
+    "track_ftc_title": "FTC DECODE™",
+    "track_ftc_desc": "Advanced Java programming and complex mechanism design.",
+    "track_fgc_title": "FGC Incheon 2026",
+    "track_fgc_desc": "Global challenges and national team preparation for the world finals."
   },
   "courses": {
     "page_title": "Courses",
@@ -380,7 +389,22 @@
     "addRow": "Add Row",
     "removeRow": "Remove Row",
     "sortByRoi": "Sort by ROI",
-    "exportCsv": "Export CSV"
+    "exportCsv": "Export CSV",
+    "mission_placeholder": "Mission M01..."
+  },
+  "rubric": {
+    "robot-design_beginner": "Robot is designed and performs basic tasks. Team can explain key design decisions.",
+    "robot-design_intermediate": "Design improved through testing. Process documented in engineering notebook.",
+    "robot-design_advanced": "Innovative design with clear rationale. Team demonstrates deep understanding of engineering process.",
+    "coding_beginner": "Program runs the robot to complete missions. Code is organized and readable.",
+    "coding_intermediate": "Uses sensors and conditionals. P-controller for precise movement.",
+    "coding_advanced": "PID controller, modular PyBricks code. Route optimization algorithms.",
+    "innovation_beginner": "Problem identified, solution proposed. Presentation is structured.",
+    "innovation_intermediate": "Prototype tested with real users. Impact metrics available.",
+    "innovation_advanced": "Impact First: quantifiable result in first 10 seconds. Scalable solution.",
+    "robot-game_beginner": "Robot completes 3+ missions. Team knows rules and strategy.",
+    "robot-game_intermediate": "Mission ROI analysis. Optimized routes. 150+ points.",
+    "robot-game_advanced": "300+ points. Fully autonomous strategy with backup plans."
   },
   "footer": {
     "tagline": "Robotics education for everyone",

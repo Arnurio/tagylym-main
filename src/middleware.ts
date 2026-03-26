@@ -5,8 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 const intlMiddleware = createMiddleware(routing);
 
 // Routes that require authentication
-const protectedPaths = ["/dashboard", "/resources"];
+const protectedPaths = ["/dashboard"];
 
+// TODO: migrate to proxy when next-intl supports it (Next.js 16 deprecates "middleware" convention)
 export default function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
@@ -17,10 +18,12 @@ export default function middleware(request: NextRequest) {
     const isProtected = protectedPaths.some((p) => pathWithoutLocale.startsWith(p));
 
     if (isProtected) {
-        // Check for Supabase auth cookies
+        // Derive project ref from env to avoid hardcoding
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+        const projectRef = supabaseUrl.match(/https:\/\/(.+?)\.supabase/)?.[1] || "";
         const hasAuthToken =
-            request.cookies.has("sb-nvfvrbudxltzgqmazeos-auth-token") ||
-            request.cookies.has("sb-nvfvrbudxltzgqmazeos-auth-token.0");
+            request.cookies.has(`sb-${projectRef}-auth-token`) ||
+            request.cookies.has(`sb-${projectRef}-auth-token.0`);
 
         if (!hasAuthToken) {
             // Redirect to login

@@ -7,7 +7,7 @@
 ---
 
 ## Стек
-- Next.js 14 · TypeScript · Tailwind · next-intl (KK / RU / EN)
+- Next.js 16 · TypeScript · Tailwind v4 · next-intl (KK / RU / EN)
 - Правило: только `useTranslations()`, все тексты в `kk.json` + `ru.json` + `en.json`
 - После каждой задачи: `npx tsc --noEmit` → 0 ошибок → коммит
 
@@ -34,8 +34,13 @@
 - [x] **Task 14 — Persistent Lesson Progress** — сохранение прогресса видеоуроков в Supabase.
 - [x] **Task 15 — FTC & FGC Coming Soon** — страницы-заглушки для новых направлений.
 
+### 🚀 Текущий спринт (Digital Kazakhstan — Шымкент, 27 марта 2026)
+- [ ] **CAT Quiz** — адаптивный квиз, который меняет сложность по ответам студента
+- [ ] **Demo mode** — публичный показ: презентации + видеоуроки + квиз банк без авторизации
+- [ ] **F1–F16 full fix pass** — контрастность, i18n, middleware, level names в БД (выполнено 26 марта 2026)
+
 ---
-**Status**: All current backlog items completed. Platform is functional and localized.
+**Status**: Platform functional, localized, deployed on Vercel. Full fix pass completed 2026-03-26.
 
 ## Соглашения
 

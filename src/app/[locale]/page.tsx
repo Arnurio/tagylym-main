@@ -18,45 +18,6 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
 };
 
-const presentations = [
-  {
-    slug: "fll-innovation-project",
-    title: "FLL — Innovation Project",
-    description: "Инновациялық жоба бойынша сабақтар",
-    color: "#0D9488",
-  },
-  {
-    slug: "fll-robot-design",
-    title: "FLL — Robot Design",
-    description: "Роботты жобалау бойынша сабақтар",
-    color: "#0C2D48",
-  },
-  {
-    slug: "fll-robot-game",
-    title: "FLL — Robot Game",
-    description: "Робот ойыны бойынша сабақтар",
-    color: "#0C2D48",
-  },
-  {
-    slug: "fll-core-values",
-    title: "FLL — Core Values",
-    description: "Негізгі құндылықтар бойынша сабақтар",
-    color: "#0D9488",
-  },
-  {
-    slug: "ftc-first-tech-challenge",
-    title: "FTC — FIRST Tech Challenge",
-    description: "Robot Engineering, Coding, Inspire Awards бойынша сабақтар",
-    color: "#0C2D48",
-  },
-  {
-    slug: "fgc-first-global-challenge",
-    title: "FGC — FIRST Global Challenge",
-    description: "Robot Game, Game Project, Awards бойынша сабақтар",
-    color: "#F97316",
-  }
-];
-
 const TARGET_CARDS = [
   {
     icon: "🎓",
@@ -276,7 +237,7 @@ export default function HomePage() {
                                 className="h-2 w-2 rounded-full bg-accent" 
                             />
                             <span className="font-mono text-xs uppercase tracking-[0.15em] text-accent font-semibold">
-                                About
+                                {t("badge_about")}
                             </span>
                         </motion.div>
 
@@ -287,14 +248,14 @@ export default function HomePage() {
                             {t("about_title")}
                         </motion.h2>
                         
-                        <motion.p variants={fadeInUp} className="text-lg text-muted-foreground leading-relaxed mb-8">
+                        <motion.p variants={fadeInUp} className="text-lg text-slate-600 leading-relaxed mb-8">
                             {t("about_body")}
                         </motion.p>
 
                         {/* Callout Card */}
-                        <motion.div variants={fadeInUp} className="relative bg-card rounded-2xl p-6 border border-border shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <motion.div variants={fadeInUp} className="relative bg-slate-50 rounded-2xl p-6 border border-slate-200 shadow-md hover:shadow-xl transition-shadow duration-300">
                             <div className="absolute top-0 right-8 -translate-y-[40%] text-[8rem] text-accent/[0.04] font-calistoga leading-none select-none">&quot;</div>
-                            <p className="italic text-lg text-foreground relative z-10 font-medium tracking-tight">
+                            <p className="italic text-lg text-slate-800 relative z-10 font-medium tracking-tight">
                                 {t("about_quote")}
                             </p>
                         </motion.div>
@@ -353,7 +314,7 @@ export default function HomePage() {
                                 className="h-2 w-2 rounded-full bg-white" 
                             />
                             <span className="font-mono text-xs uppercase tracking-[0.15em] text-white font-semibold">
-                                Highlight
+                                {t("badge_highlight")}
                             </span>
                         </motion.div>
 
@@ -395,24 +356,24 @@ export default function HomePage() {
                             viewport={{ once: true }}
                             className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest mb-4"
                         >
-                            Learning Paths
+                            {t("badge_learning_paths")}
                         </motion.div>
-                        <motion.h2 
+                        <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
                             className="text-4xl md:text-5xl font-calistoga text-white"
                         >
-                            {t("presentations_title") || "Образовательные треки"}
+                            {t("presentations_title")}
                         </motion.h2>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            { title: "FLL Masterclass", desc: "LEGO Education, Spike Prime и стратегия игры для самых юных инженеров.", slug: "fll", color: "#8B5CF6", icon: "🤖" },
-                            { title: "FTC DECODE™", desc: "Продвинутое программирование на Java и проектирование сложных механизмов.", slug: "ftc", color: "#F97316", icon: "⚙️" },
-                            { title: "FGC Incheon 2026", desc: "Глобальные вызовы и подготовка национальной сборной к мировому финалу.", slug: "fgc", color: "#10B981", icon: "🌍" }
+                            { titleKey: "track_fll_title" as const, descKey: "track_fll_desc" as const, slug: "fll", color: "#8B5CF6", icon: "🤖" },
+                            { titleKey: "track_ftc_title" as const, descKey: "track_ftc_desc" as const, slug: "ftc", color: "#F97316", icon: "⚙️" },
+                            { titleKey: "track_fgc_title" as const, descKey: "track_fgc_desc" as const, slug: "fgc", color: "#10B981", icon: "🌍" },
                         ].map((track, idx) => (
                             <motion.div 
                                 key={idx}
@@ -425,14 +386,14 @@ export default function HomePage() {
                                 <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">
                                     {track.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold text-white mb-4">{track.title}</h3>
-                                <p className="text-slate-400 leading-relaxed mb-8 flex-grow">{track.desc}</p>
+                                <h3 className="text-2xl font-bold text-white mb-4">{t(track.titleKey)}</h3>
+                                <p className="text-slate-400 leading-relaxed mb-8 flex-grow">{t(track.descKey)}</p>
                                 
                                 <Link 
                                     href={`/${track.slug}` as "/"}
                                     className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-primary transition-colors group/link"
                                 >
-                                    {t("view_track") || "Подробнее"}
+                                    {t("view_track")}
                                     <svg className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                     </svg>
@@ -446,7 +407,7 @@ export default function HomePage() {
                             href="/courses"
                             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
                         >
-                            <span>{t("all_courses") || "Все курсы"}</span>
+                            <span>{t("all_courses")}</span>
                             <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
                                 →
                             </div>

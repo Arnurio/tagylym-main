@@ -19,28 +19,6 @@ const rubricCriterionMap: Record<string, "DESIGN" | "CREATE" | "INNOVATION" | "I
     "robot-game": "ITERATE",
 };
 
-const rubricTexts: Record<string, Record<string, string>> = {
-    "robot-design": {
-        beginner: "Робот жобаланды, негізгі тапсырмаларды орындай алады. Команда дизайнның негізгі шешімдерін түсіндіре алады.",
-        intermediate: "Дизайн тестілеу негізінде жақсартылды. Инженерлік журналда процесс құжатталған.",
-        advanced: "Нақты негіздемесі бар инновациялық дизайн. Команда инженерлік процесті терең түсінетінін көрсетеді.",
-    },
-    coding: {
-        beginner: "Бағдарлама роботты миссияларды орындау үшін іске қосады. Код жүйелі және түсінікті.",
-        intermediate: "Датчиктер мен шарттарды қолдану. Дәл қозғалыс үшін P-контроллер.",
-        advanced: "PID-реттегіш, PyBricks-тегі модульдік код. Маршрутты оңтайландыру алгоритмдері.",
-    },
-    innovation: {
-        beginner: "Мәселе анықталды, шешім ұсынылды. Презентация құрылымдалған.",
-        intermediate: "Прототип нақты пайдаланушылармен сыналды. Әсер ету көрсеткіштері бар.",
-        advanced: "Impact First: алғашқы 10 секундта цифрлық нәтиже. Масштабталатын шешім.",
-    },
-    "robot-game": {
-        beginner: "Робот 3+ миссияны орындайды. Команда ережелер мен стратегияны біледі.",
-        intermediate: "Миссиялардың ROI-анализі. Оңтайландырылған маршруттар. 150+ ұпай.",
-        advanced: "300+ ұпай. Резервтік жоспарлары бар толық автономды стратегия.",
-    },
-};
 
 export default function LevelPageContent({
     category,
@@ -68,10 +46,12 @@ export default function LevelPageContent({
     const tLesson = useTranslations("lesson");
     const tQuiz = useTranslations("quiz");
     const tChecklist = useTranslations("checklist");
+    const tRubric = useTranslations("rubric");
     const levelName = level as LevelName;
     const rubricLevel = level === "advanced" ? "EXCEEDS" as const : "ACCOMPLISHED" as const;
     const criterion = rubricCriterionMap[category] || "DESIGN";
-    const rubricText = rubricTexts[category]?.[level] || "Бұл деңгей үшін бағалау критерийлері.";
+    const rubricKey = `${category}_${level}` as Parameters<typeof tRubric>[0];
+    const rubricText = tRubric(rubricKey);
 
     const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
