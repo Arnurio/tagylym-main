@@ -51,7 +51,7 @@ export default function FGCPage() {
                         transition={{ delay: 0.2 }}
                         className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-12"
                     >
-                        {t("description") || "Национальная сборная готовится к мировому вызову. Уникальный опыт, международное сотрудничество и глобальные проблемы."}
+                        {t("description")}
                     </motion.p>
 
                     <motion.div
@@ -65,13 +65,13 @@ export default function FGCPage() {
                             onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                             className="px-8 py-4 rounded-xl bg-teal-600 text-white font-bold text-lg shadow-xl shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.05] transition-all"
                         >
-                            {t("join_waitlist") || "Join Waitlist"}
+                            {t("join_waitlist")}
                         </button>
                         <Link 
                             href="/"
                             className="px-8 py-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md text-white font-bold text-lg hover:bg-white/10 transition-all"
                         >
-                            {t("back_to_home") || "Back to Home"}
+                            {t("back_to_home")}
                         </Link>
                     </motion.div>
                 </div>
@@ -81,9 +81,9 @@ export default function FGCPage() {
             <section className="py-24 px-6 relative z-10">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
-                        { title: "National Team", desc: "Мы готовим лучших из лучших для представления страны на мировой арене.", icon: "🇰🇿" },
-                        { title: "Global Impact", desc: "Решайте реальные мировые проблемы через призму робототехники и инноваций.", icon: "🌎" },
-                        { title: "Elite Mentoring", desc: "Прямой доступ к менторам, имеющим опыт участия в международных финалах.", icon: "🥇" }
+                        { titleKey: "feature_team_title" as const, descKey: "feature_team_desc" as const, icon: "🇰🇿" },
+                        { titleKey: "feature_impact_title" as const, descKey: "feature_impact_desc" as const, icon: "🌎" },
+                        { titleKey: "feature_mentoring_title" as const, descKey: "feature_mentoring_desc" as const, icon: "🥇" }
                     ].map((feature, idx) => (
                         <motion.div
                             key={idx}
@@ -93,8 +93,8 @@ export default function FGCPage() {
                             className="glass-card p-10 border border-white/5 hover:border-teal-500/30 transition-all hover:-translate-y-2 group"
                         >
                             <div className="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">{feature.icon}</div>
-                            <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                            <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                            <h3 className="text-2xl font-bold mb-4">{t(feature.titleKey)}</h3>
+                            <p className="text-slate-400 leading-relaxed">{t(feature.descKey)}</p>
                         </motion.div>
                     ))}
                 </div>
@@ -105,8 +105,8 @@ export default function FGCPage() {
                 <div className="max-w-4xl mx-auto relative">
                      <div className="absolute inset-0 bg-teal-500/5 rounded-[3rem] blur-3xl -z-10" />
                      <div className="glass-card p-12 md:p-20 text-center border-white/10">
-                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title") || "Join the Selection Process"}</h2>
-                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle") || "Be notified when the national team selection starts and access preparatory materials."}</p>
+                        <h2 className="text-4xl font-calistoga mb-6">{t("waitlist_title")}</h2>
+                        <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">{t("waitlist_subtitle")}</p>
                         <div className="max-w-md mx-auto">
                             <WaitlistForm track="fgc" />
                         </div>

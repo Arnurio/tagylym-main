@@ -148,7 +148,7 @@ function LessonContent({ id, locale }: { id: string; locale: string }) {
                 {presentationUrl && (
                     <div className="mb-8 border border-white/10 rounded-2xl overflow-hidden shadow-lg">
                         <div className="bg-slate-800 px-4 py-3 flex justify-between items-center">
-                            <h3 className="font-semibold text-sm text-white">Презентация</h3>
+                            <h3 className="font-semibold text-sm text-white">{t("presentation")}</h3>
                             <a
                                 href={presentationUrl}
                                 target="_blank"
@@ -158,7 +158,7 @@ function LessonContent({ id, locale }: { id: string; locale: string }) {
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
-                                Ашу / Открыть
+                                {t("open_link")}
                             </a>
                         </div>
                         <iframe

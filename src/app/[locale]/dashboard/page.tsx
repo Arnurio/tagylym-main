@@ -72,13 +72,13 @@ export default function DashboardPage() {
             if (levels) {
                 const lNames: Record<string, string> = {};
                 levels.forEach(l => {
-                    const nameMap: Record<string, string> = {
-                        "Начинающий": tCourses("beginner"),
-                        "Средний": tCourses("intermediate"),
-                        "Продвинутый": tCourses("advanced")
+                    const displayNames: Record<string, string> = {
+                        "beginner": tCourses("beginner"),
+                        "intermediate": tCourses("intermediate"),
+                        "advanced": tCourses("advanced"),
+                        "general": tCourses("beginner")
                     };
-                    const locName = locale === 'kk' ? (l as any).name_kk : (locale === 'en' ? (l as any).name_en : l.name);
-                    lNames[l.id] = nameMap[l.name] || locName || l.name;
+                    lNames[l.id] = displayNames[l.name] || l.name;
                 });
                 setLevelNames(lNames);
             }
