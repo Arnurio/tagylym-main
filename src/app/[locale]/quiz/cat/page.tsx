@@ -230,9 +230,9 @@ export default function CatQuizPage() {
                         </div>
 
                         <div className="bg-slate-800/30 rounded-xl p-4 text-xs text-slate-400 space-y-1.5">
-                            <div className="flex items-center gap-2"><span className="text-emerald-400">●</span> 2 дұрыс → деңгей жоғарылайды</div>
-                            <div className="flex items-center gap-2"><span className="text-red-400">●</span> 2 қате → деңгей төмендейді</div>
-                            <div className="flex items-center gap-2"><span className="text-slate-500">●</span> {SESSION_LENGTH} сұрақ</div>
+                            <div className="flex items-center gap-2"><span className="text-emerald-400">●</span> {t("cat_rule_correct")}</div>
+                            <div className="flex items-center gap-2"><span className="text-red-400">●</span> {t("cat_rule_wrong")}</div>
+                            <div className="flex items-center gap-2"><span className="text-slate-500">●</span> {t("cat_rule_questions", { n: SESSION_LENGTH })}</div>
                         </div>
 
                         {noQuestions && (

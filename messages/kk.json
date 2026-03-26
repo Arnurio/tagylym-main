@@ -246,7 +246,10 @@
     "cat_current_level": "Деңгей",
     "cat_restart": "Қайтадан бастау",
     "cat_back": "Квиз банкіне оралу",
-    "cat_no_questions": "Бұл трек бойынша жеткілікті сұрақтар жоқ"
+    "cat_no_questions": "Бұл трек бойынша жеткілікті сұрақтар жоқ",
+    "cat_rule_correct": "2 дұрыс → деңгей жоғарылайды",
+    "cat_rule_wrong": "2 қате → деңгей төмендейді",
+    "cat_rule_questions": "{n} сұрақ"
   },
     "resources": {
         "page_title": "Ресурстар",

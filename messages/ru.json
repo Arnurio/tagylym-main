@@ -246,7 +246,10 @@
     "cat_current_level": "Уровень",
     "cat_restart": "Начать заново",
     "cat_back": "К банку квизов",
-    "cat_no_questions": "Недостаточно вопросов для этого трека"
+    "cat_no_questions": "Недостаточно вопросов для этого трека",
+    "cat_rule_correct": "2 верных → уровень повышается",
+    "cat_rule_wrong": "2 ошибки → уровень понижается",
+    "cat_rule_questions": "{n} вопросов"
   },
     "resources": {
         "page_title": "Ресурсы",
