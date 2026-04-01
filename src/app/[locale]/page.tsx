@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/routing";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import FeedbackForm from "@/components/FeedbackForm";
+import { FaEnvelope, FaInstagram, FaTelegram } from "react-icons/fa";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
@@ -63,34 +66,64 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-white/3 transition-colors"
       >
         <span className="font-semibold text-sm text-white pr-4">{question}</span>
-        <svg
-          className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        <motion.svg
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="w-5 h-5 text-slate-400 shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
+        </motion.svg>
       </button>
-      {isOpen && (
-        <div className="px-6 pb-5 border-t border-white/5 pt-4">
-          <p className="text-sm text-slate-400 leading-relaxed">{answer}</p>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-5 border-t border-white/5 pt-4">
+              <p className="text-sm text-slate-400 leading-relaxed">{answer}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 export default function HomePage() {
     const t = useTranslations("home");
+    const [visitorCount, setVisitorCount] = useState(0);
+
+    useEffect(() => {
+      fetch("/api/visits")
+        .then((r) => r.json())
+        .then((data) => setVisitorCount(data.unique_visitors || 0))
+        .catch(() => {});
+    }, []);
 
     return (
         <div className="min-h-screen bg-background text-foreground font-sans overflow-hidden">
             {/* HERO SECTION */}
             <section className="relative w-full px-6 py-28 md:py-44 flex flex-col lg:flex-row items-center justify-center isolate">
-                {/* Ambient glows */}
-                <div className="absolute top-0 right-0 w-[700px] h-[700px] -z-10 rounded-full" style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 65%)', filter: 'blur(40px)' }} />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] -z-10 rounded-full" style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 65%)', filter: 'blur(40px)' }} />
+                {/* Ambient glows — animated */}
+                <motion.div
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-0 right-0 w-[700px] h-[700px] -z-10 rounded-full"
+                  style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 65%)', filter: 'blur(40px)' }}
+                />
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                  className="absolute bottom-0 left-0 w-[600px] h-[600px] -z-10 rounded-full"
+                  style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 65%)', filter: 'blur(40px)' }}
+                />
                 <div className="absolute inset-0 -z-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.045) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
                 
                 <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
@@ -133,12 +166,15 @@ export default function HomePage() {
                         {/* Stats row */}
                         <motion.div variants={fadeInUp} className="mt-10 flex items-center gap-6 flex-wrap">
                             {[
-                                { value: "25+", label: t("stat_presentations") },
-                                { value: "63", label: t("stat_questions") },
-                                { value: "3", label: t("stat_languages") },
+                                { target: 25, suffix: "+", label: t("stat_presentations") },
+                                { target: 63, suffix: "", label: t("stat_questions") },
+                                { target: 3, suffix: "", label: t("stat_languages") },
+                                ...(visitorCount > 0 ? [{ target: visitorCount, suffix: "", label: t("stat_visitors") }] : []),
                             ].map((stat, i) => (
                                 <div key={i} className="flex flex-col">
-                                    <span className="text-2xl font-black text-white">{stat.value}</span>
+                                    <span className="text-2xl font-black text-white">
+                                        <AnimatedCounter target={stat.target} suffix={stat.suffix} />
+                                    </span>
                                     <span className="text-xs text-slate-400 uppercase tracking-wider">{stat.label}</span>
                                 </div>
                             ))}
@@ -468,6 +504,88 @@ export default function HomePage() {
                             </motion.div>
                         ))}
                     </motion.div>
+                </div>
+            </section>
+
+            {/* CONTACT SECTION */}
+            <section className="px-6 py-28 relative overflow-hidden" style={{ backgroundColor: '#274D7A' }}>
+                <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
+
+                <div className="max-w-6xl mx-auto relative z-10">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.15 }}
+                        variants={stagger}
+                        className="text-center mb-12"
+                    >
+                        <motion.div variants={fadeInUp} className="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+                            <motion.span
+                                animate={{ scale: [1, 1.3, 1], opacity: [1, 0.7, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="h-2 w-2 rounded-full bg-accent"
+                            />
+                            <span className="font-mono text-xs uppercase tracking-[0.15em] text-accent font-semibold">
+                                {t("badge_contact")}
+                            </span>
+                        </motion.div>
+                        <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-calistoga text-white mb-4">
+                            {t("contact_title")}
+                        </motion.h2>
+                        <motion.p variants={fadeInUp} className="text-lg text-white/70 max-w-2xl mx-auto">
+                            {t("contact_subtitle")}
+                        </motion.p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-12 items-start">
+                        {/* Contact Info */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, ease: easeOut }}
+                            className="space-y-6"
+                        >
+                            <a href="mailto:tagylym11@gmail.com" className="glass-card p-5 flex items-center gap-4 hover:-translate-y-1 transition-all duration-300 group">
+                                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
+                                    <FaEnvelope className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-white/60">Email</p>
+                                    <p className="text-white font-medium">tagylym11@gmail.com</p>
+                                </div>
+                            </a>
+                            <a href="https://instagram.com/tagylym.kz" target="_blank" rel="noopener noreferrer" className="glass-card p-5 flex items-center gap-4 hover:-translate-y-1 transition-all duration-300 group">
+                                <div className="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                                    <FaInstagram className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-white/60">Instagram</p>
+                                    <p className="text-white font-medium">@tagylym.kz</p>
+                                </div>
+                            </a>
+                            <a href="https://t.me/tagylym" target="_blank" rel="noopener noreferrer" className="glass-card p-5 flex items-center gap-4 hover:-translate-y-1 transition-all duration-300 group">
+                                <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform">
+                                    <FaTelegram className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-white/60">Telegram</p>
+                                    <p className="text-white font-medium">@tagylym</p>
+                                </div>
+                            </a>
+                        </motion.div>
+
+                        {/* Feedback Form */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, ease: easeOut, delay: 0.15 }}
+                        >
+                            <FeedbackForm />
+                        </motion.div>
+                    </div>
                 </div>
             </section>
         </div>

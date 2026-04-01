@@ -13,6 +13,8 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import VisitLogger from "@/components/VisitLogger";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
@@ -37,6 +39,8 @@ export default async function LocaleLayout({
         <html lang={locale} className="dark">
             <body className="min-h-screen bg-background text-slate-100 antialiased">
                 <NextIntlClientProvider messages={messages}>
+                    <VisitLogger />
+                    <ScrollProgress />
                     <Nav />
                     <main className="pt-16">{children}</main>
                     <Footer />
