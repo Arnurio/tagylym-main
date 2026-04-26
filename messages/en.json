@@ -47,6 +47,10 @@
     "stat_presentations": "presentations",
     "stat_questions": "questions",
     "stat_languages": "languages",
+    "stat_visitors": "visitors",
+    "contact_title": "Get in Touch",
+    "contact_subtitle": "Have a question or want to collaborate? We'd love to hear from you.",
+    "badge_contact": "Contact",
     "about_title": "About Tagylym",
     "about_body": "Tagylym is an open online platform giving students and mentors from all regions of Kazakhstan free access to structured courses in robotics, programming and engineering. All tracks are built on FIRST values and criteria, not just to teach robot building, but to help teams grow into strong participants, mentors, and future engineers.",
     "about_quote": "Hundreds of schools with robotics equipment don't use it to its full potential due to lack of content and mentors.",
@@ -465,7 +469,9 @@
     "quizzes": "Quizzes",
     "checklists": "Checklists",
     "downloads": "Downloads",
-    "copyright": "© 2025 Tagylym. All rights reserved."
+    "copyright": "© 2025 Tagylym. All rights reserved.",
+    "contact": "Contact",
+    "email_us": "Email us"
   },
   "presentations": {
     "back": "Back to Presentations",
